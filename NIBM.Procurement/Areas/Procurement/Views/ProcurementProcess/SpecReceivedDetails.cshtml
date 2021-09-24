@@ -1,0 +1,114 @@
+﻿@using NIBM.Procurement
+@model NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM
+
+@{
+    ViewBag.Title = "Received Specifications Details";
+}
+
+@using (Html.BeginForm("SpecReceived", "ProcurementProcess", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="card shadow mt-3">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Specification Details</h6>
+        </div>
+        <div class="card-body px-5 pb-5">
+            <div class="form-horizontal">
+                @Html.HiddenFor(model => model.ProReqID)
+                @Html.HiddenFor(model => model.RowVersion)
+
+                <br />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.SpecRecomnedOn, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.SpecRecomnedOn)
+                    </div>
+                    @Html.LabelFor(model => model.SpecRequstedFromName, "Spec Recommended By", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.SpecRequstedFromName)
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-2">Specification Attachment</label>
+                    <div class="col-md-4">
+                        <a href=@Model.RecommenedSpecification class="btn btn-primary" target="_blank"><span class='bi bi-search'></span> View</a>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ProcessType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.ProcessType)
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.TenderID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @if (Model.ProcessType == ProcurementProcessType.Last3monthprocess)
+                        {
+                            @Html.DetailsViewFor(model => model.TenderDesc)
+                        }
+                        else
+                        {
+                            <label class="control-label text-dark font-weight-bold">-- Not Available --</label>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Procurement Request Details</h6>
+        </div>
+        <div class="card-body px-5 pb-5">
+            <div class="form-horizontal mt-4">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.RequestBY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.RequestBY)
+                    </div>
+                    @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.ReqSubject)
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.Description)
+                    </div>
+                    @Html.LabelFor(model => model.DivHeadName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.DivHeadName)
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @if (!Model.AttachmentLink.IsBlank())
+                    {
+                        var Attachment = "Request Specification";
+                        @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-search'></span> View</a>
+                            @*@Html.ActionLink("View", "GetAttachment", new { id = Model.ProReqID }, new { @class = "bi bi-download", style = "min-width:75px" })*@
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr />
+            <h6>Item List</h6>
+            <div id="ChildContent">
+                @{ Html.RenderAction("ChildIndex", new { id = Model.ProReqID }); }
+            </div>
+        </div>
+    </div>
+}
+<div>
+    <br /><br />@Html.ActionLink("Back to Index", "ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 3 }, null)
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/procurement/procurement")
+}

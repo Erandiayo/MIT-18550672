@@ -1,0 +1,48 @@
+﻿@model NIBM.Procurement.Areas.Admin.Models.DepartmentVM
+
+@{
+    ViewBag.Title = "Department Details";
+}
+
+<div>
+    <br />
+    @using (Html.BeginForm("Delete", "Departments"))
+    {
+        @Html.HiddenFor(model => model.DepartmentID)
+        @Html.HiddenFor(model => model.RowVersion)
+
+        <p>
+            <div class="d-grid gap-2 d-md-block">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.DepartmentID }, new { @class = "btn btn-primary", style = "min-width:75px" })
+                @Html.ConfirmSubmitButton("Delete", "Are you sure you want to delete?", "Confirm department deletion",
+                 "<span class='bi bi-trash'></span> Delete", new { @class = "btn btn-danger", style = "min-width:75px" })
+            </div>
+        </p>
+    }
+
+        <div class="form-horizontal">
+            <div class="form-group row">
+                @Html.LabelFor(model => model.IsAcademic, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DetailsViewFor(model => model.IsAcademic)
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DetailsViewFor(model => model.Description)
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DetailsViewFor(model => model.Status)
+                </div>
+            </div>
+
+        </div>
+</div>
+<p>
+    <br/><br/>@Html.ActionLink("Back to List", "Index")
+</p>

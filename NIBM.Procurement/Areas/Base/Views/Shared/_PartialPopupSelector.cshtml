@@ -1,0 +1,67 @@
+﻿<div id=@ViewBag.DialogID class="columns" data-url=@ViewBag.DataUrl>
+
+    <div class="ui-columns-search">
+        <input name="query" class="ui-table-search NoClearIcon" type="search" placeholder="Search">
+    </div>
+    <div class="ui-columns-table" style="display: none; overflow: auto;">
+
+    </div>
+
+    <div class="ui-columns-progress">
+        <div class="ui-table-progress" style="background: rgb(215 212 212); height: 400px; text-align: center; vertical-align: middle; display: table-cell;">
+            <div class="ui-table-progress-img" style="padding: 10px; display: inline-block;">
+                <br>
+                <img alt="" src="~/Content/Images/Processing.gif?v=1" width="100" height="100">
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-columns-footer">
+        <div class="ui-table-footer">
+            <div class="ui-table-results">
+                <div>Results: <strong>0 – 0</strong> of <strong>0</strong></div>
+                <div style="margin: 5px 0px;">
+                    Page <strong>0</strong> of <strong>0</strong>
+                </div>
+            </div>
+            <div class="ui-table-controls">
+                <div class="ui-table-show-rows ">
+                    <span>
+                        Show rows:&nbsp;
+                        <select class="form-select-sm-popup">
+                            <option selected="selected" value="5">5</option>
+                            <option value="10">10</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="input-group">
+                    <div class="ui-table-control-disabled btn-outline-secondary" data-columns-page="0">
+                        <span aria-hidden="true">&laquo;</span>
+                    </div>
+                    <div class="ui-table-control-disabled btn-outline-secondary" data-columns-page="0">
+                        <span aria-hidden="true">&lt;</span>
+                    </div>
+                    <span>
+                        <input name="page" class="ui-table-control-gotopage" type="text">
+                    </span>
+                    <div class="ui-table-control-disabled btn-outline-secondary" data-columns-page="0">
+                        <span aria-hidden="true">&gt;</span>
+                    </div>
+                    <div class="ui-table-control-disabled btn-outline-secondary" data-columns-page="0">
+                        <span aria-hidden="true">&raquo;</span>
+                    </div>
+                </div>
+            </div><div style="clear: both;"></div>
+        </div>
+    </div>
+
+    <div style="padding-top:10px;text-align:right;border-top: 1px solid #e5e5e5;">
+        <input type="button" class="btn btn-outline-warning ui-columns-foot-clear" style="min-width:75px" value="Clear" />
+        <input type="button" class="btn btn-outline-primary ui-columns-foot-ok" style="min-width:75px" value="OK" />
+        <input type="button" class="btn btn-outline-secondary ui-columns-foot-cancel" style="min-width:75px" value="Cancel" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () { initPopUpSel('@ViewBag.DialogID'); });
+</script>

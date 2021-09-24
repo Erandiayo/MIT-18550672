@@ -1,0 +1,77 @@
+﻿@model NIBM.Procurement.Areas.Admin.Models.BranchVM
+
+@{
+    ViewBag.Title = "Branch Details";
+}
+
+<div>
+    <br />
+    @using (Html.BeginForm("Delete", "Branches"))
+    {
+        @Html.HiddenFor(model => model.BranchID)
+        @Html.HiddenFor(model => model.RowVersion)
+
+        <p>
+            <div class="d-grid gap-2 d-md-block">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.BranchID }, new { @class = "btn btn-primary", style = "min-width:75px" })
+                @Html.ConfirmSubmitButton("Delete", "Are you sure you want to delete?", "Confirm branch deletion",
+                 "<span class='bi bi-trash'></span> Delete", new { @class = "btn btn-danger", style = "min-width:75px" })
+            </div>
+        </p>
+    }
+
+    <div class="form-horizontal">
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DetailsViewFor(model => model.Description)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DetailsViewFor(model => model.Address)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.TelNo_1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DetailsViewFor(model => model.TelNo_1)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.TelNo_2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DetailsViewFor(model => model.TelNo_2)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.FaxNo_1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DetailsViewFor(model => model.FaxNo_1)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.FaxNo_2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DetailsViewFor(model => model.FaxNo_2)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DetailsViewFor(model => model.Status)
+            </div>
+        </div>
+
+    </div>
+</div>
+<p>
+    <br/><br/>@Html.ActionLink("Back to List", "Index")
+</p>

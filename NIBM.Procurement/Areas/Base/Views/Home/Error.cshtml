@@ -1,0 +1,8 @@
+﻿@if (Model is Nullable<int>)
+{
+    <h2 style="color:red">An Error Occured@(Model == 400 ? " : Bad Request" : Model == 404 ? " : Not Found" : ". Please Contact Application Support.")</h2>
+}
+else
+{
+    <h2>An Error Occured. Please Contact Application Support.</h2>
+}

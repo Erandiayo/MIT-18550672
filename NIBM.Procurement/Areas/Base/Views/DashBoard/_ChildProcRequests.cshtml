@@ -1,0 +1,86 @@
+﻿@model NIBM.Procurement.Common.BaseViewModel<NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM>
+
+@{
+    ViewBag.Title = "Procurement Requests";
+    var grid = Model.GetGrid();
+}
+
+@{
+    var srchOpts = new List<SelectListItem>();
+    srchOpts.Add(new SelectListItem { Text = "Subject", Value = "ReqSubject" });
+    srchOpts.Add(new SelectListItem { Text = "Description", Value = "Description" });
+    srchOpts.Add(new SelectListItem { Text = "Status", Value = "Status" });
+
+}
+
+@using (Html.BeginForm("Home", "DashBoard", FormMethod.Get, new { area = "Base" }))
+{
+    <div class="card text-dark bg-light mb-3">
+        <div class="card-body">
+            <div class="form-horizontal row justify-content-center">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        @Html.Label("Search By", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownList("FilterBy", new SelectList(srchOpts, "Value", "Text"), htmlAttributes: new { @class = "form-control form-control-sm rounded-pill form-select-sm" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Search" name="Search" class="btn btn-secondary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        @grid.GetHtml(
+        tableStyle: "table table-hover no-foot",
+        mode: WebGridPagerModes.All,
+        columns: grid.Columns(
+            grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-search' style='color:white'></span>", "View Details", "Details", routeValues: new { area = "Procurement", controller = "ProcurementRequests", id = item.ProReqID, TempNo = 0, tile = false }, htmlAttributes: new { @class = "btn btn-primary btn-sm" }), style: "btn-1"),
+            grid.Column(null, null, format: (item) => (((Enum)item.Status).In(NIBM.Procurement.ProcurementReqStatus.Drafted, NIBM.Procurement.ProcurementReqStatus.Incomplete, NIBM.Procurement.ProcurementReqStatus.DGRejected, NIBM.Procurement.ProcurementReqStatus.DivisionHeadRejected, NIBM.Procurement.ProcurementReqStatus.HRRejected))
+                        ? Html.NoEncodeActionLink("<span class='bi bi-pencil-square' style='color:black'></span>", "Proceed to Edit", "Edit", routeValues: new { area = "Procurement", controller = "ProcurementRequests", id = item.ProReqID }, htmlAttributes: new { @class = "btn btn-warning btn-sm" })
+                        : Html.NoEncodeActionLink("<span class='bi bi-pencil-square' style='color:black'></span>", "Proceed to Edit", "Edit", htmlAttributes: new { @class = "btn btn-outline-secondary btn-sm disabled" }), style: "btn-1"),
+            grid.SortColumn(columnName: "ReqDate", header: "Requested Date", format: (item) => item.ReqDate.ToString("yyyy-MM-dd")),
+            grid.SortColumn(columnName: "ReqSubject", header: "Subject"),
+            grid.SortColumn(columnName: "Description", header: " Description"),
+            grid.SortColumn(columnName: "Status", header: "Status", format: (item) =>
+            {
+            var itm = (NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM)item.Value;
+            using (Html.BeginForm("SendForApproval", "ProcurementRequests", FormMethod.Post, new { area = "Procurement" }))
+            {
+
+                if (itm.Status == NIBM.Procurement.ProcurementReqStatus.Drafted)
+                {
+
+                    return Html.Raw(Html.ConfirmSubmitButton("Send For Approval", "Are you sure you want to send this for approval?",
+                                    "Confirm sending for approval", "<span class='bi bi-hand-thumbs-up'></span> Send For Approval",
+                                    new { @class = "btn btn-success", style = "min-width:100px", @data_event_id = itm.ProReqID, @data_row_version = Convert.ToBase64String(itm.RowVersion) },
+                                    "btn-success", jsFunction: "SendForApproval"));
+
+                }
+                else
+                {
+                    
+                    return Html.Raw(itm.Status.ToEnumChar());
+                }
+            }
+            //{ return Html.Raw(itm.Status.ToEnumChar()); }
+        }/*, style: "text-center"*/
+
+            )))
+        <div id="content-footer">
+            @grid.PagerList(WebGridPagerModes.All, Model.PageSize, Model.TotalRecords)
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

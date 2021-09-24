@@ -1,0 +1,48 @@
+﻿<link href=@Url.Content("~/Content/ReportsMenu.css") rel="stylesheet" />
+@{
+    ViewBag.Title = "Procurement - Reports";
+}
+
+<h2>Pick your choice..</h2>
+
+
+<div class="container row" style="padding-top:14px;">
+
+    @foreach (var item in ViewBag.cardPermission)
+    {
+            <div class="col-md-4">
+                <div class="report-card card border-primary card-background">
+                    <a href="~/@item.Action" target="_blank">
+                        <div class="row g-0">
+                            <div class="image-report col-md-8">
+                                <div class="card-body text-primary">
+                                    <p class="card-text title-text"><small>@item.ReportName</small></p><hr class="hr" />
+                                    <p class="card-text child-text">@item.Description</p>
+                                </div>
+                            </div>
+                            @if (item.Icon == "Both")
+                            {
+                                <div class="text-report col-md-4 bg-primary icon2" style="min-height:90px">
+                                    <img src="~/Content/Images/pdf.png" class="card-img-top icon" style="width:40px; display: block;margin-left: auto;margin-right: auto;padding-top:20px">
+                                    <img src="~/Content/Images/Excel.png" class="card-img-top icon" style="width:40px; display: block;margin-left: auto;margin-right: auto;padding-top:0">
+                                </div>
+                            }
+                            else if (item.Icon == "PDF")
+                            {
+                                <div class="text-report col-md-4 bg-primary icon2" style="min-height:90px">
+                                    <img src="~/Content/Images/pdf.png" class="card-img-top icon" style="width:40px; display: block;margin-left: auto;margin-right: auto;padding-top:41px">
+                                </div>
+                            }
+                            else if (item.Icon == "Excel")
+                            {
+                                <div class="text-report col-md-4 bg-primary icon2" style="min-height:90px">
+                                    <img src="~/Content/Images/Excel.png" class="card-img-top icon" style="width:40px; display: block;margin-left: auto;margin-right: auto;padding-top:41px">
+                                </div>
+                            }
+                        </div>
+                    </a>
+                </div>
+            </div>
+    }
+</div>
+

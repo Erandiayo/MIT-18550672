@@ -1,0 +1,104 @@
+﻿
+@model NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM
+
+@{
+    ViewBag.Title = "Edit Procurement Requests";
+}
+
+    <div>
+        @using(Html.BeginForm("Edit", "ProcurementRequests", FormMethod.Post, new { enctype = "multipart/form-data" } ))
+        {
+
+            @Html.HiddenFor(model => model.ProReqID)
+            @Html.HiddenFor(model => model.RowVersion)
+
+            <div class="form-horizontal">
+                <br />
+                <p>
+                    <input type="submit" value="Save" class="btn btn-primary" style="min-width:75px" />
+                </p>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.RequestBY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.RequestBY, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.RequestBY, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.ReqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ReqDate, "Date", new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", type = "JQ-date", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.ReqDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @*@Html.EditorFor(model => model.ReqSubject, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                    @Html.ValidationMessageFor(model => model.ReqSubject, "", new { @class = "text-danger" })*@
+                        @Html.EditorFor(model => model.ReqSubject, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.ReqSubject, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @if (!Model.AttachmentLink.IsBlank())
+                    {
+                        var Attachment = "";
+                        @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-search'></span> View</a>
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group row">
+                    @if (!Model.AttachmentLink.IsBlank())
+                    {
+                        <div class="control-label col-md-2">
+                            <label>Attachment Re-upload </label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" id="file" name="file" style="margin-top:10px">
+                            @Html.HiddenFor(model => model.ProReqID)
+                            @Html.HiddenFor(model => model.FileName)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="control-label col-md-2">
+                            <label>Attachment (If available) </label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" id="file" name="file" style="margin-top:10px">
+                            @Html.HiddenFor(model => model.ProReqID)
+                            @Html.HiddenFor(model => model.FileName)
+                        </div>
+                    }
+                    @Html.LabelFor(model => model.DivisionHead, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.PopUpSelectorFor(model => model.DivisionHead, "Base", "Data", "GetEmployees", new { @class = "form-select form-select-sm form-control form-control-sm rounded-pill" }, "Please select an Employee", dspFormat: "{1}", hiddenIndices: "0,2,3,4,5,6", dataParas: new { HeadOfDivision = true })
+                        @Html.ValidationMessageFor(model => model.DivisionHead, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                </div>
+
+            }
+            <div id="ChildContent">
+                @{ Html.RenderAction("ChildIndex", new { id = Model.ProReqID, isToEdit = true }); }
+            </div>
+
+            <br />
+            <div>
+                @Html.ActionLink("Back to Index", "Index", "ProcurementRequests", new { area = "Procurement" }, null)
+            </div>
+        </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/procurement/procurement")
+}

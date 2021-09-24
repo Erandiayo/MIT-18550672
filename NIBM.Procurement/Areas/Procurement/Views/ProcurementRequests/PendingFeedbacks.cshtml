@@ -1,0 +1,184 @@
+﻿@model IEnumerable<NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM>
+<div class="card shadow mt-3">
+    <div class="card-header py-3 text-center">
+        <h6 class="m-0 font-weight-bold text-primary">Pending Feedbacks</h6>
+    </div>
+    <div class="card-body px-5 pb-5">
+        <div class="row">
+            <div class="col-md-2">
+                <input id="SelectAllFeedbacks" type="checkbox" class="form-check-box" style="margin-bottom:10px" /> <span style="font-size:15px; color:black"> &nbsp; Select All</span>
+            </div>
+            <div class="col-md-6">
+                @using (Html.BeginForm())
+                {
+                    <input id="StringPara1" type="hidden" name="StringPara1">
+                    <div class="d-grid gap-2 d-md-block">
+                        @Html.ConfirmSubmitButton("<span class='bi bi-check-circle'></span>&nbsp;Add Feedback", "Are you sure you want to add feedbacks?", "Confirm adding Feedbacks",
+                                    "<span class='bi bi-check-circle'></span>&nbsp;&nbspAdd Feedback", new { @class = "btn btn-success", style = "min-width:75px;margin-bottom:4px;" }, "btn-success"
+                                    , jsFunction: "AddUserFeedbackBulkSave")
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <br />
+        <table id="tblPendingFeedbacks" style="width:100%;margin-bottom:5px;">
+            <thead>
+                <tr>
+                    <th>
+                        <table class="table table-striped" style="margin: 0;">
+                            <thead>
+                                <tr>
+                                    <th class="btn-1" style="width:3%"></th>
+                                    <th style="width:4%"></th>
+                                    <th style="width:9%">
+                                        Requested Date
+                                    </th>
+                                    <th style="width:9%">
+                                        Subject
+                                    </th>
+                                    <th style="width:10%">
+                                        Description
+                                    </th>
+                                    <th style="width:8%">
+                                        Branch
+                                    </th>
+                                    <th style="width:9%">
+                                        Department
+                                    </th>
+                                    <th style="width:9%">
+                                        Requested By
+                                    </th>
+                                    <th style="width:11%">
+                                        Divisional Head
+                                    </th>
+                                    <th style="width:9%">
+                                        Status
+                                    </th>
+                                    <th style="width:11%">
+                                        User Feedback
+                                    </th>
+                                    <th style="width:10%">
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div>
+                                <table class="table table-striped" style="margin: 0;">
+                                    <tbody>
+                                        <tr>
+                                            <td id="select" style="width: 3%; text-align: center">
+                                                <input type="checkbox" class="form-check-box" />
+                                            </td>
+                                            <td class="btn-1" style="width:4%; text-align:center">
+                                                <button type="button" name="toggleBudgets" class="btn btn-default btn-sm" aria-label="Left Align">
+                                                    <span class="bi bi-chevron-down" aria-hidden="true"></span>
+                                                </button>
+                                            </td>
+                                            <td id="ProReqID" style="width:9%">
+                                                @item.ReqDate.ToString("yyyy-MM-dd")
+                                                <input type="hidden" value="@item.ProReqID" />
+                                            </td>
+
+                                            <td id="RejID" style="width:9%">
+                                                @item.ReqSubject
+                                                <input type="hidden" value="01" />
+                                            </td>
+                                            <td id="ValId" style="width:10%">
+                                                @item.Description
+                                                <input type="hidden" value="01" name="ValId" />
+                                            </td>
+                                            <td style="width:8%">
+                                                @item.FromBranch
+                                            </td>
+                                            <td style="width:9%">
+                                                @item.FromDepart
+                                            </td>
+                                            <td style="width:9%">
+                                                @item.EmpName
+                                            </td>
+
+                                            <td style="width:11%">
+                                                @item.DivHeadName
+                                            </td>
+                                            <td id="status" style="width:9%">
+                                                @item.Status.ToEnumChar()
+                                                <input type="hidden" value="@item.Status" />
+                                            </td>
+                                            <td id="TextComment" style="width:11%; text-align: center">
+                                                <textarea name="TxtAreaUserFeedback" rows="4" cols="10" style="max-width:100px">@item.UserFeedback</textarea>
+                                            </td>
+                                            <td style="width:10%; text-align: center">
+                                                <div id="rejBtn">
+                                                    @using (Html.BeginForm())
+                                                    {
+                                                        @Html.ConfirmSubmitButton("<span class='bi bi-check-circle'></span>&nbsp;Add Feedback", "Are you sure you want to add feedback?", "Confirm adding Feedback",
+                                                        "<span class='bi bi-check-circle'></span>&nbsp;&nbspAdd Feedback", new { @class = "btn btn-success mt-2 mb-2", style = "min-width:50px" }, "btn-success"
+                                                        , jsFunction: "AddUserFeedback")
+                                                    }
+                                                </div>
+                                                    <div style="border-bottom:10px !important; ">
+                                                        @if (item.AttachmentLink != null)
+                                                        {
+
+                                                            <a href=@item.AttachmentLink class="btn btn-primary" target="_blank" style="width:70%;"><span class='bi bi-download'></span></a>
+
+                                                        }
+                                                        else
+                                                        { <span style="font-weight:bold;color:black; font-size:inherit">- Attachment Not Available - </span>}
+                                                    </div>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div name="ProcDetDiv" style="width: 75%; margin-left: auto; margin-right: auto;display:none;">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Item Description
+                                                </th>
+                                                <th>
+                                                    Quantity
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var det in item.ProcumentReqItemsDetails)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @det.ItemDesc
+                                                    </td>
+                                                    <td>
+                                                        @det.ReqQty
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/procurement/procurement")
+}

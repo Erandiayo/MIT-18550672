@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("SignOut", "Home", new { area = "Base" }, FormMethod.Post))
+    {
+
+        <ul class="nav pull-right top-menu">
+            <!--<li id="alert_notificatoin_bar" class="dropdown">
+                <a href="@Url.Action("GetTiles", "Home", new { area = "Base" })">
+                    <i class="bi bi-bell-fill"></i>
+                    <span class="badge bg-important"></span>
+                </a>
+            </li>
+            <li id="alert_notificatoin_bar" class="dropdown">
+                <a data-toggle="collapse" class="dropdown-toggle" href="#collapseID1" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="badge bg-important"></span>
+                </a>
+                <ul class="collapse dropdown-menu extended dashboard" id="collapseID1">
+                    <li>
+                        <a href="@Url.Action("Home", "DashBoard", new { area = "Base" })">
+                            <i class="fas fa-home"></i>
+                            <span style="margin-left:10px;">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="@Url.Action("Intake", "DashBoard", new { area = "Base" })">
+                            <i class="fas fa-users"></i>
+                            <span style="margin-left:10px;">Intake</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="@Url.Action("AllPrograms", "DashBoard", new { area = "Base" })">
+                            <i class="far fa-list-alt"></i>
+                            <span style="margin-left:10px;">All Programs</span>
+                        </a>
+                    </li>-->
+                    @*<li style="text-align:center;">
+                        <p class="blue" style="padding:2px">Powered by "chart.js"</p>
+                    </li>*@
+                <!--</ul>
+            </li>-->
+            <!-- alert notification start-->
+            <li id="alert_notificatoin_bar" class="dropdown" style="display:none">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge bg-important">7</span>
+                </a>
+                <ul class="dropdown-menu extended notification">
+                    @*<div class="notify-arrow notify-arrow-blue"></div>*@
+                    <li>
+                        <p class="blue">You have 4 new notifications</p>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-primary">
+                                <i class="fas fa-bell"></i>
+                            </span>
+                            Test notification 1
+                            <span class="small italic pull-right">5 mins</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-warning">
+                                <i class="fas fa-bell"></i>
+                            </span>
+                            Test notification 2
+                            <span class="small italic pull-right">50 mins</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-danger">
+                                <i class="fas fa-bell"></i>
+                            </span>
+                            Test notification 3
+                            <span class="small italic pull-right">1 hr</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-success">
+                                <i class="fas fa-bell"></i>
+                            </span>
+                            Test notification 4
+                            <span class="small italic pull-right">Today</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">See all notifications</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- alert notification end-->
+            <!-- user login dropdown start-->
+            <li class="dropdown">
+                <a data-toggle="collapse" class="dropdown-toggle" href="#collapseID2" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="profile-ava">
+                        <img alt="" src="@Url.Action("GetMyProfilePicture","Home", new { area = "Base" })" style="height:35px" />
+                    </span>
+                    <span class="username">@Html.GetCurrentUserVM().ShortName</span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="collapse dropdown-menu extended logout" id="collapseID2">
+                    <li class="eborder-top" style="display:none">
+                        <a href="#"><i class="icon_profile"></i> My Profile</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dlgChangePassword" style="text-align:center">Change Password</a>
+                    </li>
+                    <li>
+                        <a href="#" class="dlgConfirmSubmit" data-button-text="Yes" data-message="Are you sure you want to sign out?"
+                           data-title="&lt;span class=&quot; bi bi-question-circle&quot; style=&quot; font-size:x-large;&quot;&gt &lt;/span&gt Confirm sign out"
+                           style="min-width:75px;text-align:center">Sign out</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- user login dropdown end -->
+        </ul>
+    }
+}

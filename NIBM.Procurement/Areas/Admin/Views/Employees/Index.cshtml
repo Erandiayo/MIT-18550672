@@ -1,0 +1,148 @@
+﻿@model NIBM.Procurement.Common.BaseViewModel<NIBM.Procurement.Areas.Admin.Models.EmployeeVM>
+
+<link href="~/Content/ChartsStyle.css" rel="stylesheet" />
+<script src="~/Scripts/Chart.custom.js"></script>
+<script src="~/Scripts/Layout/jquery.nicescroll.js"></script>
+
+@{
+    ViewBag.Title = "Employee Information";
+    var grid = Model.GetGrid();
+}
+
+@{
+    var srchOpts = new List<SelectListItem>();
+    srchOpts.Add(new SelectListItem { Text = "EPF No", Value = "EPFNo" });
+    srchOpts.Add(new SelectListItem { Text = "Full Name", Value = "FullName" });
+    srchOpts.Add(new SelectListItem { Text = "NIC No", Value = "NICNo" });
+    srchOpts.Add(new SelectListItem { Text = "Status", Value = "Status" });
+
+    NIBM.Procurement.Areas.Base.Models.ChartConfig branchEmpCount = ViewBag.BranchEmpCount;
+    List<NIBM.Procurement.DB.Entities.Employee> retireList = (List<NIBM.Procurement.DB.Entities.Employee>)ViewBag.RetireEmp;
+}
+
+@using (Html.BeginForm("Index", null, FormMethod.Get))
+{
+    <p>
+        @Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary", style = "min-width:75px" })
+    </p>
+    <br />
+    <div class="form-horizontal row">
+        <div class="col-md-4">
+            <div class="form-group row">
+                @Html.Label("Search By", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.DropDownList("FilterBy", new SelectList(srchOpts, "Value", "Text"), htmlAttributes: new { @class = "form-control form-control-sm rounded-pill form-select-sm" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <input type="submit" value="Search" name="Search" class="btn btn-outline-secondary" />
+        </div>
+    </div>
+    <br />
+    <div id="content">
+        @grid.GetHtml(
+        tableStyle: "table table-hover no-foot",
+        mode: WebGridPagerModes.All,
+        columns: grid.Columns(
+            grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-search' style='color:white'></span>", "View Details", "Details", routeValues: new { id = item.EmployeeID }, htmlAttributes: new { @class = "btn btn-primary btn-sm" }), style: "btn-1"),
+            grid.Column(null, null, format: (item) => ((Enum)item.Status).In(NIBM.Procurement.ActiveState.Active) ? Html.NoEncodeActionLink("<span class='bi bi-pencil-square' style='color:black'></span>", "Proceed to Edit", "Edit", routeValues: new { id = item.EmployeeID }, htmlAttributes: new { @class = "btn btn-warning btn-sm" })
+                        : Html.NoEncodeActionLink("<span class='bi bi-pencil-square' style='color:black'></span>", "Proceed to Edit", "Edit", htmlAttributes: new { @class = "btn btn-outline-secondary btn-sm disabled" }), style: "btn-1"),
+            grid.SortColumn(columnName: "EPFNo", header: "EPF No"),
+            grid.SortColumn(columnName: "FullName", header: "Full Name"),
+            grid.SortColumn(columnName: "DesignationDesc", header: "Designation"),
+            grid.SortColumn(columnName: "BranchDesc", header: "Branch"),
+            grid.SortColumn(columnName: "DepartmentDesc", header: "Department"),
+            grid.SortColumn(columnName: "Status", header: "Status", format: (item) => ((Enum)item.Status).ToEnumChar())
+            ))
+
+        <div id="content-footer">
+            @grid.PagerList(WebGridPagerModes.All, Model.PageSize, Model.TotalRecords)
+        </div>
+    </div>
+
+    <style>
+        .tableFixHead {
+            overflow-y: auto;
+            height: 170px;
+        }
+
+            .tableFixHead thead th {
+                position: sticky;
+                top: 0;
+            }
+
+        /*tbody div {
+            overflow: scroll;
+            height: 130px;
+            overflow-x: hidden;*/ /* Hide horizontal scrollbar */
+        /*}*/
+
+        .shadow-card {
+            box-shadow: 0 5px 5px 5px rgba(0,0,0,0.2) !important;
+            width: 325px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .info-card-small {
+            box-shadow: 0 5px 5px 5px rgba(0,0,0,0.2) !important;
+            margin-left: -5px;
+            margin-bottom: 15px;
+            margin-top: 20px;
+            padding: 10px;
+            display: inline-block;
+            border-radius: 25px;
+            min-width: 152px !important;
+        }
+
+            .info-card-small > h6 {
+                font-size: 12px !important;
+                text-shadow: none !important;
+                font-family: monospace !important;
+                font-weight: bold !important;
+            }
+
+            .info-card-small > h5 {
+                font-size: 12px !important;
+                text-shadow: none !important;
+                font-family: monospace !important;
+                font-weight: bold !important;
+            }
+
+        .shadow-card > h7 {
+            font-size: 10px !important;
+            font-weight: bold !important;
+            color: #153e74 !important;
+        }
+
+        .tooltip {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+        }
+
+            .tooltip img {
+                object-fit: contain;
+                overflow: hidden;
+                width: 120px;
+                height: 120px;
+            }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $(".gridImage").each(function () {
+                var src = $(this).attr("src");
+                $(this).attr("title", '<div><img src="' + src + '"></div>');
+                $(this).tooltip({ html: true });
+            });
+        });
+    </script>
+}

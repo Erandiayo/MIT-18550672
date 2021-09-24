@@ -1,0 +1,107 @@
+﻿@model NIBM.Procurement.Areas.Admin.Models.EmployeeVM
+
+@{
+    ViewBag.Title = "Employee Details";
+}
+
+<div>
+    <br />
+    @using (Html.BeginForm("Delete", "Employees"))
+    {
+        @Html.HiddenFor(model => model.EmployeeID)
+        @Html.HiddenFor(model => model.RowVersion)
+
+        <p>
+            @if (Model.Status == NIBM.Procurement.ActiveState.Active)
+            {
+                <div class="d-grid gap-2 d-md-block">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeID }, new { @class = "btn btn-primary", style = "min-width:75px" })
+                    @Html.ConfirmSubmitButton("Delete", "Are you sure you want to delete?", "Confirm employee deletion",
+              "<span class='bi bi-trash'></span> Delete", new { @class = "btn btn-danger", style = "min-width:75px" })
+                </div>
+            }     
+        </p>
+    }
+<div class="form-horizontal">
+    <div class="row justify-content-between">
+        <div class="col-md-4">
+            <div class="card" style="height: 100%; width:80%; border-radius:10px;padding:2%;">
+                <div class="card-body">
+                    <h6 class="card-title"><strong>@Model.EPFNo</strong></h6>
+                    <h6 class="card-title">@Model.Title.&nbsp;@Model.Initials&nbsp;@Model.LastName</h6>
+                    <p class="card-text">
+                        <strong>@Model.DesignationDesc</strong><br />
+                        @Model.BranchDesc - @Model.DepartmentDesc<br /><br />
+                        <strong>Supervised By: </strong> <br />&nbsp;@Model.ImmediateSupervisor1Desc
+                        <br />
+                        <br />
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <span class="bi bi-person-circle" style="font-size:17px;color:limegreen;"></span>&nbsp;&nbsp;Personal Information<span style="color:red;">&nbsp;*</span>
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.Title)
+                        </div>
+                        @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4 rounded-pill">
+                            @Html.DetailsViewFor(model => model.FullName)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Initials, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.Initials)
+                        </div>
+                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.LastName)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.FirstName)
+                        </div>
+                        @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.MiddleName)
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.Gender)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+</div>
+<p>
+    <br /><br />@Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/bootstrapbundleminjs")
+    @Scripts.Render("~/Content/bootstrapmin")
+    @Scripts.Render("~/bundles/admin/employee")
+}

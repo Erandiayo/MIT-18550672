@@ -1,0 +1,208 @@
+﻿@using NIBM.Procurement
+@model NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM
+
+@if (Model.Status == ProcurementReqStatus.DGApproved && Model.IsTile == true)
+{
+    ViewBag.Title = "Procurement Approved Requests";
+}
+else if (Model.IsTile == true)
+{
+    ViewBag.Title = "Pending approvals for Procurement Requests";
+}
+else if (Model.Status == ProcurementReqStatus.DGApproved && Model.IsTile == true)
+{
+    ViewBag.Title = "Procurement Requests Approved Requests Details";
+}
+else
+{
+    ViewBag.Title = "Procurement Requests Details";
+}
+
+
+<div class="form-horizontal">
+    <div class="form-group row">
+        <br />
+        @using (Html.BeginForm("Delete", "ProcurementRequests"))
+        {
+            @Html.HiddenFor(model => model.ProReqID)
+            @Html.HiddenFor(model => model.RowVersion)
+
+            <p>
+                <div class="d-grid gap-2 d-md-block">
+                    @if (Model.Status.In(ProcurementReqStatus.Drafted, ProcurementReqStatus.DivisionHeadRejected, ProcurementReqStatus.Incomplete, ProcurementReqStatus.DGRejected, ProcurementReqStatus.HRRejected, ProcurementReqStatus.ReOpened))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.ProReqID }, new { @class = "btn btn-primary", style = "min-width:75px; margin-right:0.5%;" })
+                        if ((Model.Status != ProcurementReqStatus.DivisionHeadRejected) && (Model.Status != ProcurementReqStatus.DGRejected) && (Model.Status != ProcurementReqStatus.Incomplete) && (Model.Status != ProcurementReqStatus.HRRejected) && (Model.Status != ProcurementReqStatus.ReOpened))
+                        {
+                            @Html.ConfirmSubmitButton("Delete", "Are you sure you want to delete?", "Confirm Subject deletion",
+                            "<span class='bi bi-trash'></span> Delete", new { @class = "btn btn-danger", style = "min-width:75px;margin-right:0.5%;" })
+                        }
+                        @Html.ConfirmSubmitButton("Send For Approval", "Are you sure you want to send this for approval? ",
+                        "Confirm sending for approval", "<span class='bi bi-hand-thumbs-up'></span> Send For Approval",
+                        new { @class = "btn btn-success", style = "min-width:75px;margin-right:0.5%;" }, "btn-success", "SendForApproval")
+                    }
+                    @if (Model.Status.In(ProcurementReqStatus.DivisionHeadApproved) && Model.IsTile == true)
+                    {
+                        @Html.ConfirmSubmitButton("Department Received", "Are you sure you want to receive this for department? ",
+                        "Confirm receiving for department", "<span class='bi bi-hand-thumbs-up'></span> Department Receive",
+                        new { @class = "btn btn-success", style = "min-width:75px;margin-right:0.5%;" }, "btn-success", "DepartmentRecieve")
+
+                        @Html.ConfirmSubmitButton("Incomplete", "Are you sure you want to Incomplete this? ",
+                        "Confirm for Incomplete", "<span class='bi bi-hand-thumbs-up'></span> Incomplete",
+                        new { @class = "btn btn-warning", style = "min-width:75px;margin-right:0.5%;" }, "btn-warning", "Incomplete")
+
+                    }
+                    @if (Model.Status.In(ProcurementReqStatus.DGApproved, ProcurementReqStatus.HRApproved) && Model.IsTile == true)
+                    {
+                        @Html.ConfirmSubmitButton("Item Received", "Are you sure you want to complete this request? ",
+                             "Confirm request completion", "<span class='bi bi-hand-thumbs-up'></span> Complete",
+                             new { @class = "btn btn-success", style = "min-width:75px;margin-right:0.5%;" }, "btn-success", "Complete")
+                    }
+                    @if (Model.Status.In(ProcurementReqStatus.DGApproved, ProcurementReqStatus.HRApproved, ProcurementReqStatus.ItemReceived) && Model.IsTile == true)
+                    {
+                        @Html.ActionLink("Print", "Print", new { id = Model.ProReqID }, new { target = "_blank", @class = "btn btn-warning", style = "min-width:75px;margin-right:0.5%;" })
+                    }
+
+                    @if (Model.Status == ProcurementReqStatus.ItemReceived && (Model.UserFeedback == null) && (Model.TempNo == 0))
+                    {
+                        @Html.ActionLink("Feedback", "FeedbackEdit", new { id = Model.ProReqID, tile = Model.IsTile }, new { @class = "btn btn-primary", style = "min-width:75px;margin-right:0.5%;" })
+                    }
+                    @{
+                        <span style="font-weight:bold; font-size:14px; margin-right:8%;" class="bi bi-circle-fill float-right @(((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.DGApproved ? "blue-status" :
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.DivisionHeadApproved ? "brown-status" :
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.Drafted ? "gray-status" :
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.HRApproved ? "blue-status" :
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.HRRecommended ? "orange-status" :
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.Incomplete ? "light-red-status" :
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.ItemReceived ? "purple-status" : 
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.PendingApproval ? "yellow-status" :
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.ProcurementDeptReceived ? "light-blue-status" :
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.ReOpened ? "yellow-status" :
+                            (((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.DGRejected ||
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.DivisionHeadRejected ||
+                            ((NIBM.Procurement.ProcurementReqStatus)Model.Status) == NIBM.Procurement.ProcurementReqStatus.HRRejected) ? "blood-red-status" : "light-black-status")">
+                            &nbsp; @Model.Status.ToEnumChar()
+                        </span>
+
+                        if (Model.Status.In(ProcurementReqStatus.DivisionHeadApproved, ProcurementReqStatus.DivisionHeadRejected))
+                        {
+                            <span style="font-weight:bold;margin-right:2%;" class="float-right"> ( By :- @(Model.ApprovedOrRejectByName) on @(Model.DivHeadAppORRejDate.ToDateString("yyyy-MM-dd")))</span><br />
+                            if (Model.SupervisorComment != null)
+                            {<span style="font-weight:bold;color:black;">Supervisor Comment :- <span style="color:gray">@(Model.SupervisorComment)</span></span> }
+                        }
+                        else if (Model.Status.In(ProcurementReqStatus.HRRejected))
+                        { 
+                            <span style="font-weight:bold; margin-right:2%;" class="float-right"> ( By :- @(Model.HrRejectedName) on @(Model.HRAppRecommendORRejDate.ToDateString("yyyy-MM-dd")))</span> <br />
+                            if (Model.SupervisorComment != null)
+                            {<span style="font-weight:bold;color:black;">Supervisor Comment :- <span style="color:gray">@(Model.SupervisorComment)</span></span> }
+                        }
+                        else if (Model.Status.In(ProcurementReqStatus.DGRejected, ProcurementReqStatus.DGApproved))
+                        { 
+                            <span style="font-weight:bold; margin-right:2%;" class="float-right"> ( By :- @(Model.DGInitials) on @(Model.DGAppORRejDate.ToDateString("yyyy-MM-dd")))</span> <br />
+                            if (Model.SupervisorComment != null)
+                            {<span style="font-weight:bold;color:black; margin-right:2%;" class="float-right">Supervisor Comment :- <span style="color:gray">@(Model.SupervisorComment)</span></span> }
+                        }
+                        else if (Model.Status.In(ProcurementReqStatus.HRRecommended, ProcurementReqStatus.HRApproved))
+                        {
+                            <span style="font-weight:bold; margin-right:2%;" class="float-right"> ( By :- @(Model.HrRejectedName) on @(Model.HRAppRecommendORRejDate.ToDateString("yyyy-MM-dd")))</span><br />
+                            if (Model.SupervisorComment != null)
+                            {<span style="font-weight:bold;color:black; margin-right:2%;" class="float-right">Supervisor Comment :- <span style="color:gray">@(Model.SupervisorComment)</span></span> }
+                        }
+                        @*else if (Model.Status.In(ProcurementReqStatus.ProcurementProcessStarted))
+                        {
+                            if (Model.Comments != null)
+                            {<br /><span style="font-weight:bold;color:black; margin-right:2%;" class="float-right">Supervisor Comment :- <span style="color:gray">@(Model.Comments)</span></span>}
+                        }*@
+
+                    }
+                </div>
+            </p>
+            <br/>
+            <br/>
+            <br />
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.RequestBY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.RequestBY)
+                    </div>
+                    @Html.LabelFor(model => model.ReqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.ReqDate)
+                    </div>
+                </div>
+
+                @if (Model.Status.In(ProcurementReqStatus.ItemReceived) && Model.Comments != null)
+                {
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.CompletedDate, "Completed Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.CompletedDate)
+                        </div>
+                        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.Comments)
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.ReqSubject)
+                    </div>
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.Description)
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group row">
+                @if (!Model.AttachmentLink.IsBlank())
+                {
+                    var Attachment = "";
+                    @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-search'></span> View</a>
+                    </div>
+                }
+                @Html.LabelFor(model => model.DivisionHead, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DetailsViewFor(model => model.DivisionalHead)
+                </div>
+            </div>
+            <div class="form-group row">
+                @if (Model.UserFeedback != null)
+                {
+                    @Html.LabelFor(model => model.UserFeedback, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.UserFeedback)
+                    </div>
+                }
+            </div>
+
+        }
+    </div>
+</div>
+<br />
+<div class="ChildContent">
+    @{ Html.RenderAction("ChildIndex", new { id = Model.ProReqID, isToEdit = false }); }
+</div>
+@if (Model.TempNo == 2)
+{
+    <br />
+    <br />
+    @Html.ActionLink("Back to List", "ProcurementProcess", "Home", new { area = "Base" }, null) }
+else
+{
+    <div>
+        <br /><br />@Html.ActionLink("Back to Index", "Index", "ProcurementRequests", new { area = "Procurement" }, null)
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/procurement/procurement")
+}

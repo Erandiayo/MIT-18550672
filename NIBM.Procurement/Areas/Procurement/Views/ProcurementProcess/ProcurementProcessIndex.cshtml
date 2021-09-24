@@ -1,0 +1,771 @@
+﻿
+@model NIBM.Procurement.Common.BaseViewModel<NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM>
+
+<link href="~/Content/ChartsStyle.css" rel="stylesheet" />
+<script src="~/Scripts/Chart.custom.js"></script>
+
+@{
+    var srchOpts = new List<SelectListItem>();
+    srchOpts.Add(new SelectListItem { Text = "Subject", Value = "ReqSubject" });
+    srchOpts.Add(new SelectListItem { Text = "Branch", Value = "FromBranch" });
+    srchOpts.Add(new SelectListItem { Text = "Department", Value = "FromDepart" });
+    srchOpts.Add(new SelectListItem { Text = "Description", Value = "Description" });
+}
+
+<div>
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 justify-content-center">
+                        <div class="card-counter success col-md-12" style="max-height:150px !important">
+                            <a href="@Url.Action("Create", "ProcurementRequests", new { area = "Procurement" })">
+                                <div class="row g-0" style="margin-top:-2%;">
+                                    <div class="card-text-div col-md-10 col-sm-8 col-lg-10">
+                                        <span class="count-numbers" style="color: white !important"></span>
+                                        <span class="count-name" style="color:white !important;font-size:x-large;line-height:72px;"><center>New Request</center></span>
+                                    </div>
+                                    <div class="card-icon-div col-md-2 col-sm-4 col-lg-2">
+                                        <span class="card-icon bi bi-pencil-square" style="color: white !important"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 justify-content-center">
+                        <div class="card-counter primary" style="max-height:150px !important">
+                            <a href="@Url.Action("ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 1 })">
+                                <div class="row g-0" style="margin-top:-2%;">
+                                    <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                        <span class="count-numbers" style="color: white !important">@ViewBag.ApprovalPending</span>
+                                        <span class="count-name" style="color: white !important">Approval<span class="sub-name">Pending</span></span>
+                                    </div>
+                                    <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                        <span class="card-icon bi bi-check2-square" style="color: white !important"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 justify-content-center">
+                        <div class="card-counter primary" style="max-height:150px !important">
+                            <a href="@Url.Action("Requests", "ApproveRequest", new { area = "Procurement" })">
+                                <div class="row g-0" style="margin-top:-2%;">
+                                    <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                        <span class="count-numbers" style="color: white !important">@ViewBag.DivApprovalPending</span>
+                                        <span class="count-name" style="color: white !important">Procurement Dept<span class="sub-name">Pending Received</span></span>
+                                    </div>
+                                    <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                        <span class="card-icon bi bi-check-square" style="color: white !important"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 justify-content-center">
+                            <div class="card-counter bg-warning" style="max-height:150px !important">
+                                <a href="@Url.Action("ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 2 })">
+                                    <div class="row g-0" style="margin-top:-2%;">
+                                        <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                            <span class="count-numbers" style="color: white !important">@ViewBag.OnProcess</span>
+                                            <span class="count-name" style="color: white !important">Process<span class="sub-name">On</span></span>
+                                        </div>
+                                        <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                            <span class="card-icon bi bi-hourglass-split" style="color: white !important"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4 justify-content-center">
+                            <div class="card-counter info" style="max-height:150px !important">
+                                <a href="@Url.Action("ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 3 })">
+                                    <div class="row g-0" style="margin-top:-2%;">
+                                        <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                            <span class="count-numbers" style="color: white !important">@ViewBag.OnTenderProcess</span>
+                                            <span class="count-name" style="color: white !important">Tender Process<span class="sub-name">On</span></span>
+                                        </div>
+                                        <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                            <span class="card-icon bi bi-journal-text" style="color: white !important"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 justify-content-center">
+                            <div class="card-counter danger" style="max-height:150px !important">
+                                <a href="@Url.Action("ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 4 })">
+                                    <div class="row g-0" style="margin-top:-2%;">
+                                        <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                            <span class="count-numbers" style="color: white !important">@ViewBag.PendingCompletion</span>
+                                            <span class="count-name" style="color: white !important">Completion<span class="sub-name">Pending</span></span>
+                                        </div>
+                                        <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                            <span class="card-icon bi bi-journal-check" style="color: white !important"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.numericVar1)
+        @Html.HiddenFor(model => model.boolVar1)
+        <div class="card shadow mt-3">
+            <div class="card-body px-5">
+                <div class="form-horizontal row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            @Html.Label("Search By", htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.DropDownList("FilterBy", new SelectList(srchOpts, "Value", "Text"), htmlAttributes: new { @class = "form-control form-control-sm rounded-pill form-select-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="submit" value="Search" name="Search" class="btn btn-outline-secondary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="card shadow">
+            <div class="card-body px-2 pb-4">
+                <ul class="nav nav-pills nav-justified">
+                    <li id="Approval" class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tabApproval">
+                            Approval -
+                            <span style='color:#ff6a00'>
+                                @Html.Raw(ViewBag.procApprovalCount)
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="OnProcess">
+                        <a class="nav-link" data-toggle="tab" href="#tabOnProcess">
+                            On Process -
+                            <span style='color:#ff6a00'>
+                                @Html.Raw(ViewBag.procOnProgressCount)
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="Tender">
+                        <a class="nav-link" data-toggle="tab" href="#tabTender">
+                            Tender -
+                            <span style='color:#ff6a00'>
+                                @Html.Raw(ViewBag.procTenderCount)
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="Completion">
+                        <a class="nav-link" data-toggle="tab" href="#tabCompletion">
+                            Completion -
+                            <span style='color:#ff6a00'>
+                                @Html.Raw(ViewBag.procCompletionCount)
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <br />
+                <div class="tab-content">
+                    <div id="tabApproval" class="tab-pane fade">
+                        <table id="tblProcApprovals" style="width:100%; margin-bottom:5px;margin: 0;" class="table table-striped toggleItemsTbl">
+                            <thead>
+                                <tr>
+                                    @if (ViewBag.procApprovalCount != 0)
+                                    {
+                                        <th></th>
+                                        <th>
+                                            Approved
+                                            Date
+                                        </th>
+                                        <th>
+                                            Requested Date
+                                        </th>
+                                        <th>
+                                            Subject
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Branch
+                                        </th>
+                                        <th>
+                                            Department
+                                        </th>
+                                        <th>
+                                            Requested By
+                                        </th>
+                                        <th>
+                                            Approval pending from
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.procApproval)
+                                {
+                                    <tr style="border-top:0.1rem groove;">
+                                        <td style="text-align:center;">
+                                            <button type="button" name="toggleItems" class="btn btn-default btn-sm" aria-label="Left Align" data-procreq-id="@item.ProReqID">
+                                                <span class="bi bi-chevron-down" aria-hidden="true"></span>
+                                            </button>
+                                        </td>
+                                        <td id="ProReqID">
+                                            @if (item.DivHeadAppORRejDate != null)
+                                            {@item.DivHeadAppORRejDate.ToString("yyyy-MM-dd")}
+                                            <input type="hidden" value="@item.ProReqID" />
+                                        </td>
+                                        <td>
+                                            @item.ReqDate.ToString("yyyy-MM-dd")
+                                        </td>
+                                        <td>
+                                            @item.ReqSubject
+                                        </td>
+                                        <td>
+                                            @item.Description
+                                        </td>
+                                        <td>
+                                            @item.FromBranch
+                                        </td>
+                                        <td>
+                                            @item.FromDepart
+                                        </td>
+                                        <td>
+                                            @item.RequestedBy
+                                        </td>
+                                        <td>
+                                            @item.DivHead
+                                        </td>
+                                        <td>
+                                            @item.Status
+                                        </td>
+                                        <td style="text-align: center">
+                                            <div>
+                                                @using (Html.BeginForm())
+                                                {
+                                                    if (item.Status == ProcurementReqStatus.DivisionHeadApproved.ToEnumChar())
+                                                    {
+                                                        @Html.ConfirmSubmitButton("<span class='bi bi-arrow-right-circle'></span>&nbsp;Department Received", "Are you sure you want to receive this for department?", "Confirm receiving for department",
+                                                           "<span class='bi bi-arrow-right-circle'></span>&nbsp;&nbspDepartment Received", new { @class = "btn btn-success btn-sm", style = "min-width:50px; margin-bottom:4px;" }, "btn-success",
+                                                           jsFunction: "DepartmentReceived")<br />
+                                                        @Html.ConfirmSubmitButton("<span class='bi bi-x-circle'></span>&nbsp;Incomplete", "Are you sure you want to Incomplete this?", "Confirm for Incomplete",
+                                                           "<span class='bi bi-x-circle'></span>&nbsp;&nbspIncomplete", new { @class = "btn btn-warning btn-sm", style = "min-width:50px; margin-bottom:4px;" }, "btn-warning",
+                                                           jsFunction: "Incomplete")
+                                                        <br />
+                                                    }
+                                                    if (item.Status == ProcurementReqStatus.HRRecommended.ToEnumChar())
+                                                    {
+                                                        <textarea name="Comments" rows="3" cols="10" style="max-width:100px; display: block; margin-left: auto; margin-right: auto; margin-bottom:2px;" class="form-control form-control-sm">@item.Comments</textarea>
+                                                        <br />
+                                                        @Html.ConfirmSubmitButton("<span class='bi bi-check-circle'></span>&nbsp;Approved by DG", "Are you sure you want to approve this request?", "Confirm request approval",
+                                                                   "<span class='bi bi-check-circle'></span>&nbsp;&nbspApprove", new { @class = "btn btn-success btn-sm", style = "min-width:75px; margin-bottom:2px;" }, "btn-success", "Approve"
+                                                                   , jsFunction: "ApproveAsDG")
+                                                    }
+                                                }
+                                                @if (item.AttachmentLink != null)
+                                                {
+                                                    <a href=@item.AttachmentLink class="btn btn-primary" target="_blank" style=" width:30%;" title="Request Attachment"><span class='bi bi-download'></span></a>
+                                                }
+                                                else
+                                                { <span class="mt-1" style="color:black; font-size:inherit;" title="Request Attachment">- Attachment Unavailable - </span>}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr id="@item.ProReqID" style="display:none;">
+                                        <td colspan="11">
+                                            <table class="table table-striped" style="width: 75%; margin-left: auto; margin-right: auto;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Item Description
+                                                        </th>
+                                                        <th>
+                                                            Quantity
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var det in item.ProcuItemDetails)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @det.ItemDesc
+                                                            </td>
+                                                            <td>
+                                                                @det.ReqQty
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="tabOnProcess" class="tab-pane fade">
+                        <table id="tblProcOnProcess" style="width:100%;margin-bottom:5px;margin: 0;" class="toggleItemsTbl table table-striped">
+                            <thead>
+                                <tr>
+                                    @if (ViewBag.procOnProgressCount != 0)
+                                    {
+                                        <th></th>
+                                        <th>
+                                            Requested
+                                            Date
+                                        </th>
+                                        <th>
+                                            Subject
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Branch
+                                        </th>
+                                        <th>
+                                            Department
+                                        </th>
+                                        <th>
+                                            Requested By
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.procOnProgress)
+                                {
+                                    <tr>
+                                        <td class="btn-3" style="width:4%; text-align:center">
+                                            <button type="button" name="toggleItems" class="btn btn-default btn-sm" aria-label="Left Align" data-procreq-id="@item.ProReqID">
+                                                <span class="bi bi-chevron-down" aria-hidden="true"></span>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            @item.ReqDate.ToString("yyyy-MM-dd")
+                                        </td>
+                                        <td>
+                                            @item.ReqSubject
+                                        </td>
+                                        <td>
+                                            @item.Description
+                                        </td>
+                                        <td>
+                                            @item.FromBranch
+                                        </td>
+                                        <td>
+                                            @item.FromDepart
+                                        </td>
+                                        <td>
+                                            @item.RequestedBy
+                                        </td>
+                                        <td>
+                                            @item.Status
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.Status == ProcurementReqStatus.DGApproved.ToEnumChar() || item.Status == ProcurementReqStatus.HRApproved.ToEnumChar())
+                                            {
+                                                @Html.ActionLink("Request For Spec", "RequestForSpecs", new { area = "Procurement", controller = "ProcurementProcess", id = item.ProReqID }, new { @class = "btn btn-warning btn-sm", style = "min-width:75px;" })
+                                                <br />
+                                            }
+                                            @if (item.Status == ProcurementReqStatus.ReqforSpec.ToEnumChar())
+                                            {
+                                                <br />
+                                                @Html.ActionLink("Spec Received", "SpecReceived", new { area = "Procurement", controller = "ProcurementProcess", id = item.ProReqID }, new { @class = "btn btn-success btn-sm mt-1", style = "min-width:75px;" })
+                                            }
+                                            <br />
+                                            @if (item.AttachmentLink != null)
+                                            {
+                                                <a href=@item.AttachmentLink class="btn btn-primary mt-1" target="_blank" style=" width:30%;" title="Request Specification"><span class="bi bi-download"></span> </a>
+                                            }
+                                            else
+                                            { <span class="mt-1" style="color:black; font-size:inherit;">- Attachment Unavailable - </span>}
+                                            @if (item.RecommenedSpecification != null)
+                                            {
+                                                <a href=@item.RecommenedSpecification class="btn btn-warning mt-1" target="_blank" style=" width:25%;" title="Specification Attachment"><span class="bi bi-download"></span> </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr id="@item.ProReqID" style="display:none;">
+                                        <td colspan="11">
+                                            <table class="table table-striped" style="width: 75%; margin-left: auto; margin-right: auto;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Item Description
+                                                        </th>
+                                                        <th>
+                                                            Quantity
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var det in item.ProcuItemDetails)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @det.ItemDesc
+                                                            </td>
+                                                            <td>
+                                                                @det.ReqQty
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="tabTender" class="tab-pane fade">
+                        <table id="tblProcTender" style="width:100%;margin-bottom:5px;margin: 0;" class="table table-striped toggleItemsTbl">
+                            <thead>
+                                <tr>
+                                    @if (ViewBag.procTenderCount != 0)
+                                    {
+                                        <th style="width:4%"></th>
+                                        <th>
+                                            Requested
+                                            Date
+                                        </th>
+                                        <th>
+                                            Subject
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Branch
+                                        </th>
+                                        <th>
+                                            Department
+                                        </th>
+                                        <th>
+                                            Requested By
+                                        </th>
+                                        <th>
+                                            Req Approved By
+                                        </th>
+                                        <th>
+                                            Spec Recommended By
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.procTender)
+                                {
+                                    <tr>
+                                        <td class="btn-3" style="width:4%; text-align:center">
+                                            <button type="button" name="toggleItems" class="btn btn-default btn-sm" aria-label="Left Align" data-procreq-id="@item.ProReqID">
+                                                <span class="bi bi-chevron-down" aria-hidden="true"></span>
+                                            </button>
+                                        </td>
+                                        <td id="ProReqID">
+                                            @item.ReqDate.ToString("yyyy-MM-dd")
+                                            <input type="hidden" value="@item.ProReqID" />
+                                        </td>
+                                        <td>
+                                            @item.ReqSubject
+                                        </td>
+                                        <td>
+                                            @item.Description
+                                        </td>
+                                        <td>
+                                            @item.FromBranch
+                                        </td>
+                                        <td>
+                                            @item.FromDepart
+                                        </td>
+                                        <td>
+                                            @item.RequestedBy
+                                        </td>
+                                        <td>
+                                            @item.DivHead
+                                        </td>
+                                        <td>
+                                            @item.SpecRecomnedBy
+                                        </td>
+                                        <td>
+                                            @item.Status
+                                        </td>
+                                        <td style="text-align: center">
+                                            @using (Html.BeginForm())
+                                            {
+                                                <a href="@Url.Action("Print", "ProcurementRequests", new { area = "Procurement", id = item.ProReqID })" class="btn btn-warning" id="Printbtn" target="_blank" style="min-width: 75px;margin-bottom:4px;">
+                                                    <span class="bi bi-printer" aria-hidden="true"></span>&nbsp;Print
+                                                </a>
+                                                if (item.Tender == null)
+                                                {
+                                                    <br />
+                                                    @Html.ActionLink("Tender Open", "CreateTender", "TenderOpen", routeValues: new { area = "Procurement", id = item.ProReqID, tile = true }, htmlAttributes: new { @class = "btn btn-success btn-sm  mb-2 mt-2" })
+                                                }
+                                                else if (item.TenderStatus == TenderStatus.TenderOpen.ToEnumChar())
+                                                {
+                                                    <br />
+                                                    @Html.ConfirmSubmitButton("<span class='bi bi-arrow-down-circle'></span>&nbsp;Close Tender", "Are you sure you want to close Tender?", "Confirm Close Tender",
+                                                   "<span class='bi bi-arrow-right-circle'></span>&nbsp;&nbspClose Tender", new { @class = "btn btn-success btn-sm", style = "min-width:50px; margin-bottom:4px;" }, "btn-success",
+                                                   jsFunction: "CloseTenderIndex")
+                                                }
+                                                else if (item.TenderStatus == TenderStatus.TenderClosed.ToEnumChar())
+                                                {
+                                                    <br />
+                                                    @Html.ActionLink("Appoint TEC", "AppointTec", "TenderOpen", routeValues: new { area = "Procurement", id = item.ProReqID, tile = true }, htmlAttributes: new { @class = "btn btn-success btn-sm  mb-2 mt-2" })
+                                                }
+                                                else if (item.TenderStatus == TenderStatus.TECSelected.ToEnumChar())
+                                                {
+                                                    <br />
+                                                    @Html.ActionLink("TEC Report Received", "TECReportReceived", "TenderOpen", routeValues: new { area = "Procurement", id = item.ProReqID, tile = true }, htmlAttributes: new { @class = "btn btn-success btn-sm  mb-2 mt-2" })
+                                                }
+                                                else if (item.TenderStatus == TenderStatus.TECRecommend.ToEnumChar())
+                                                {
+                                                    <br />
+                                                    @Html.ActionLink("Approve By Board", "BoardApprove", "TenderOpen", routeValues: new { area = "Procurement", id = item.ProReqID, tile = true }, htmlAttributes: new { @class = "btn btn-success btn-sm  mb-2 mt-2" })
+                                                }
+                                            }
+                                            @if (item.RecommenedSpecification != null)
+                                            {
+                                                <a href=@item.RecommenedSpecification class="btn btn-warning" target="_blank" title="Specification Attachment"><span class='bi bi-download' style="margin-bottom:4px;"></span> </a>
+                                            }
+                                            else
+                                            { <span class="mt-1" style="color:black; font-size:inherit;" title="Specification Attachment">- Attachment Unavailable - </span>}
+                                            @if (item.AttachmentLink != null)
+                                            {
+                                                <a href=@item.AttachmentLink class="btn btn-primary" target="_blank" title="Request Attachment"><span class='bi bi-download' style="margin-bottom:4px;"></span> </a>
+                                            }
+                                            else
+                                            { <span class="mt-1" style="color:black; font-size:inherit;" title="Request Attachment">- Attachment Unavailable - </span>}
+                                        </td>
+                                    </tr>
+                                    <tr id="@item.ProReqID" style="display:none;">
+                                        <td colspan="10">
+                                            <table class="table table-striped" style="width: 75%; margin-left: auto; margin-right: auto;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Item Description
+                                                        </th>
+                                                        <th>
+                                                            Quantity
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var det in item.ProcuItemDetails)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @det.ItemDesc
+                                                            </td>
+                                                            <td>
+                                                                @det.ReqQty
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="tabCompletion" class="tab-pane fade">
+                        <table id="tblProcCompletion" style="margin-bottom:5px;margin: 0;" class="table table-striped toggleItemsTbl">
+                            <thead>
+                                <tr>
+                                    @if (ViewBag.procCompletionCount != 0)
+                                    {
+                                        <th style="width:4%"></th>
+                                        <th>
+                                            Requested
+                                            Date
+                                        </th>
+                                        <th>
+                                            Procurement Process Started On
+                                        </th>
+                                        <th>
+                                            Subject
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                        <th>
+                                            Branch
+                                        </th>
+                                        <th>
+                                            Department
+                                        </th>
+                                        <th>
+                                            Requested By
+                                        </th>
+                                        <th>
+                                            DG or HR Approved On
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                        <th>
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.procCompletion)
+                                {
+                                    <tr style="border-top:0.1rem groove;">
+                                        <td class="btn-3" style="width:4%; text-align:center">
+                                            <button type="button" name="toggleItems" class="btn btn-default btn-sm" aria-label="Left Align" data-procreq-id="@item.ProReqID">
+                                                <span class="bi bi-chevron-down" aria-hidden="true"></span>
+                                            </button>
+                                        </td>
+                                        <td id="ProReqID">
+                                            @item.ReqDate.ToString("yyyy-MM-dd")
+                                            <input type="hidden" value="@item.ProReqID" />
+                                        </td>
+                                        <td>
+                                            @item.ProcurementProcessStartedDate.ToString("yyyy-MM-dd")
+                                        </td>
+                                        <td>
+                                            @item.ReqSubject
+                                        </td>
+                                        <td>
+                                            @item.Description
+                                        </td>
+                                        <td>
+                                            @item.FromBranch
+                                        </td>
+                                        <td>
+                                            @item.FromDepart
+                                        </td>
+                                        <td>
+                                            @item.RequestedBy
+                                        </td>
+                                        <td>
+                                            @(item.DGAppORRejDate == null ? "" : item.DGAppORRejDate.ToString("yyyy-MM-dd"))
+                                        </td>
+                                        <td>
+                                                @item.Status
+                                        </td>
+                                        <td style="text-align: center">
+                                            @using (Html.BeginForm())
+                                            {
+                                                if (item.Status != ProcurementReqStatus.ItemReceived.ToEnumChar() && item.Status != ProcurementReqStatus.PaymentComplete.ToEnumChar() && ((item.ProcessType == ProcurementProcessType.GoingthroughProcurementProcess && item.Tender != null && item.Tender.TenderStatus == TenderStatus.BoardApproved)
+                                                        || (item.ProcessType == ProcurementProcessType.Last3monthprocess && item.Status == ProcurementReqStatus.SpecRecommended.ToEnumChar())
+                                                        || item.ProcessType == ProcurementProcessType.CompletedByAdvance || item.ProcessType == ProcurementProcessType.CompletedByPettyCash))
+                                                {
+                                                    @Html.ConfirmSubmitButton("<span class='bi bi-arrow-right-circle'></span>&nbsp;Items Received", "Are you sure items received?", "Confirm items receiving",
+                                                       "<span class='bi bi-arrow-right-circle'></span>&nbsp;&nbspItems Received", new { @class = "btn btn-success btn-sm", style = "min-width:50px; margin-bottom:4px;" }, "btn-success",
+                                                       jsFunction: "ItemsReceivedIndex")
+                                                }
+
+                                                if (item.Status == ProcurementReqStatus.ItemReceived.ToEnumChar())
+                                                {
+                                                    <br />
+                                                    @Html.ActionLink("Complete Payment", "CompletePayment", "ProcurementProcess", routeValues: new { area = "Procurement", id = item.ProReqID, tile = true }, htmlAttributes: new { @class = "btn btn-warning btn-sm  mb-2 mt-2" })
+                                                }
+                                            }
+                                            @if (item.RecommenedSpecification != null)
+                                            {
+                                                <a href=@item.RecommenedSpecification class="btn btn-warning" target="_blank" title="Specification Attachment"><span class='bi bi-download' style="margin-bottom:4px;"></span> </a>
+                                            }
+                                            else
+                                            { <span class="mt-1" style="color:black; font-size:inherit;" title="Specification Attachment">- Attachment Unavailable - </span>}
+                                            @if (item.AttachmentLink != null)
+                                            {
+                                                <a href=@item.AttachmentLink class="btn btn-primary" target="_blank" title="Request Attachment"><span class='bi bi-download' style="margin-bottom:4px;"></span> </a>
+                                            }
+                                            else
+                                            { <span class="mt-1" style="color:black; font-size:inherit;" title="Request Attachment">- Attachment Unavailable - </span>}
+                                        </td>
+                                    </tr>
+                                    <tr id="@item.ProReqID" style="display:none;">
+                                        <td colspan="10">
+                                            <table class="table table-striped" style="width: 75%; margin-left: auto; margin-right: auto;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Item Description
+                                                        </th>
+                                                        <th>
+                                                            Quantity
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var det in item.ProcuItemDetails)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @det.ItemDesc
+                                                            </td>
+                                                            <td>
+                                                                @det.ReqQty
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/notification")
+    @Scripts.Render("~/bundles/procurement/procurement")
+}

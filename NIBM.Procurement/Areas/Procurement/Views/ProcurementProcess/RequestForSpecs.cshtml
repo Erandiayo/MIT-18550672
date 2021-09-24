@@ -1,0 +1,102 @@
+﻿@using NIBM.Procurement
+@model NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM
+
+@{
+    ViewBag.Title = "Request for Specifications";
+}
+
+<div class="card shadow mt-3">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Procurement Request Details</h6>
+    </div>
+    <div class="card-body px-5 pb-5">
+        <div class="form-horizontal">
+            <div class="form-group row">
+                <br />
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(model => model.ProReqID)
+                    @Html.HiddenFor(model => model.AttachmentLink)
+                    @Html.HiddenFor(model => model.RowVersion)
+
+                    <p>
+                        <div class="d-grid gap-2 d-md-block">
+                            <input type="submit" value="Request For Spec" class="btn btn-warning" style="min-width:75px" />
+                        </div>
+                    </p>
+                    <br />
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.SpecRecomnedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.PopUpSelectorFor(model => model.SpecRecomnedBy, "Base", "Data", "GetEmployees", new { @class = "form-select form-select-sm form-control form-control-sm rounded-pill" }, "Please select an Employee", dspFormat: "{1}", hiddenIndices: "0,2,3,4,5,6", dataParas: new { sortBy = "EPFNo", idsToExcluede = ViewBag.idsToExcluede })
+                                @Html.ValidationMessageFor(model => model.SpecRecomnedBy, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.RequestBY, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.RequestBY, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                            </div>
+                            @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.ReqSubject, new { htmlAttributes = new { @class = "form-control form-control-sm", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control form-control-sm", @readonly = "readonly" } })
+                            </div>
+                            @Html.LabelFor(model => model.DivHeadName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.DivHeadName, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @if (!Model.AttachmentLink.IsBlank())
+                            {
+                                var Attachment = "Request Attachment";
+                                @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-search'></span> View</a>
+                                    @*@Html.ActionLink("View", "GetAttachment", new { id = Model.ProReqID }, new { @class = "bi bi-download", style = "min-width:75px" })*@
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @*<div class="form-group row">
+                            @if ((Model.Status == ProcurementReqStatus.ItemReceived) && (!Model.IsTile))
+                            {
+                                @Html.LabelFor(model => model.UserFeedback, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.UserFeedback, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                                    @Html.ValidationMessageFor(model => model.UserFeedback, "", new { @class = "text-danger" })
+                                </div>
+                            }
+                        </div>*@
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="card shadow">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Item List</h6>
+    </div>
+    <div class="card-body px-5 pb-5">
+        <div id="ChildContent">
+            @{ Html.RenderAction("ChildIndex", new { id = Model.ProReqID }); }
+        </div>
+    </div>
+</div>
+<div>
+    <br /><br />@Html.ActionLink("Back to Index", "ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 2 }, null)
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/procurement/procurement")
+}

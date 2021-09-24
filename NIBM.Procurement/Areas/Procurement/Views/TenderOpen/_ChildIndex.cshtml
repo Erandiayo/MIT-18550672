@@ -1,0 +1,60 @@
+﻿@model IEnumerable<NIBM.Procurement.Areas.Procurement.Models.TenderVendorVM>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelNo)
+            </th>
+            @{
+                if (ViewBag.IsToEdit)
+                {
+                    <th class="btn-1" style="width:120px">
+                        @Html.NoEncodeActionLink("<span class='fa fa-plus' style='color:white'></span>", "Add", "ChildCreate", routeValues: new { TenderID = ViewBag.TenderId }, htmlAttributes: new { data_popup_editor = "", @class = "btn btn-primary pull-right btn-sm", data_title = "Add Vendor", data_popup_width = "450" })
+                    </th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelNo)
+            </td>
+            @{
+                if (ViewBag.IsToEdit)
+                {
+                    <td class="btn-2">
+                        <div class="d-grid gap-2 d-md-block pull-right">
+                            @using (Html.BeginForm("ChildDelete", "TenderOpen", new { id = item.TenderVendorID }))
+                            {
+                                @Html.ConfirmSubmitButton("<span class='bi bi-trash'></span>", "Are you sure you want to delete?", "Confirm Vendor deletion", "<span class='bi bi-trash'></span> Delete", new { data_popup_delete = "", @class = "btn btn-danger btn-sm" })
+
+                            }
+                        </div>
+                    </td>
+                }
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+@if (ViewBag.IsToEdit)
+{
+    Html.RenderPartial("~/Areas/Base/Views/Shared/_PartialAlert.cshtml");
+}

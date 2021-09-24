@@ -1,0 +1,51 @@
+﻿@model NIBM.Procurement.Areas.Admin.Models.DepartmentVM
+
+@{
+    ViewBag.Title = "Edit Department";
+}
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        <br />
+        <p>
+            <input type="submit" value="Save" class="btn btn-primary" style="min-width:75px" />
+        </p>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DepartmentID)
+        @Html.HiddenFor(model => model.RowVersion)
+
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.IsAcademic, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.IsAcademic, new { htmlAttributes = new { @class = "form-checkbox" } })
+                @Html.ValidationMessageFor(model => model.IsAcademic, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumEditorFor(model => model.Status, htmlAttributes: new { @class = "form-control form-control-sm rounded-pill form-select-sm" })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <br /><br />@Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

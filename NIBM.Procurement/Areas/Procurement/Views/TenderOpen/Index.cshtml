@@ -1,0 +1,65 @@
+﻿@model NIBM.Procurement.Common.BaseViewModel<NIBM.Procurement.Areas.Procurement.Models.TenderVM>
+
+@{
+    ViewBag.Title = "Tenders";
+    var grid = Model.GetGrid();
+}
+@{
+    var srchOpts = new List<SelectListItem>();
+    srchOpts.Add(new SelectListItem { Text = "Tender Opened Date", Value = "TenderOpenedDate" });
+    srchOpts.Add(new SelectListItem { Text = "Tender Closed Date", Value = "TenderClosedDate" });
+    srchOpts.Add(new SelectListItem { Text = "Requested By", Value = "ReqByName" });
+    srchOpts.Add(new SelectListItem { Text = "Description", Value = "Description" });
+
+}
+<div class="card shadow mt-1">
+    <div class="card-header py-3">
+    </div>
+    <div class="card-body pb-5">
+        @using (Html.BeginForm("Index", "TenderOpen", FormMethod.Get))
+        {
+            <div class="form-horizontal row justify-content-center mt-3">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        @Html.Label("Search By", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownList("FilterBy", new SelectList(srchOpts, "Value", "Text"), htmlAttributes: new { @class = "form-control form-control-sm rounded-pill form-select-sm" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <input type="submit" value="Search" name="Search" class="btn btn-outline-secondary" />
+                </div>
+            </div>
+
+            <div class="table-responsive mt-5" id="content">
+                @grid.GetHtml(
+                tableStyle: "table table-hover no-foot",
+                mode: WebGridPagerModes.All,
+                columns: grid.Columns(
+                grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-search' style='color:white'></span>", "View Details", "Details", routeValues: new { id = item.TenderID, IsTile = false }, htmlAttributes: new { @class = "btn btn-primary btn-sm" }), style: "btn-1"),
+                grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-pencil-square' style='color:black'></span>", "Proceed to Edit", "Edit", routeValues: new { id = item.TenderID }, htmlAttributes: new { @class = "btn btn-warning btn-sm" }), style: "btn-1"),
+                grid.SortColumn(columnName: "TenderOpenedDate", header: "Tender Opened Date", format: (item) => item.TenderOpenedDate.ToString("yyyy-MM-dd")),
+                grid.SortColumn(columnName: "TenderClosedDate", header: "Tender Close Date", format: (item) => item.TenderClosedDate.ToString("yyyy-MM-dd")),
+                grid.SortColumn(columnName: "ReqByName", header: "Requested By"),
+                grid.SortColumn(columnName: "ReqSubject", header: "Subject"),
+                grid.SortColumn(columnName: "Description", header: " Description"),
+                grid.SortColumn(columnName: "ReqDate", header: "Requested Date", format: (item) => item.ReqDate.ToString("yyyy-MM-dd")),
+                grid.SortColumn(columnName: "DivHeadName", header: "Immediate Supervisor")
+                ))
+
+                <div id="content-footer">
+                    @grid.PagerList(WebGridPagerModes.All, Model.PageSize, Model.TotalRecords)
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,75 @@
+﻿@model NIBM.Procurement.Areas.Procurement.Models.VendorVM
+@{
+    ViewBag.Title = "Create Vendor";
+}
+
+
+<div class="form-horizontal">
+    <div class="form-group row">
+        <br />
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(model => model.VendorID)
+            @Html.HiddenFor(model => model.RowVersion)
+
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <div class="d-grid gap-2 d-md-block">
+                        <input type="submit" value="Save" class="btn btn-primary" style="min-width:75px" />
+                    </div>
+                </div>
+                <div class="card-body px-5 pb-5">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.NavVendorID, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.NavVendorID, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                                @Html.ValidationMessageFor(model => model.NavVendorID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.TelNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.TelNo, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                                @Html.ValidationMessageFor(model => model.TelNo, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.FaxNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                                @Html.ValidationMessageFor(model => model.FaxNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EnumEditorFor(model => model.Status, htmlAttributes: new { @class = "form-control form-control-sm rounded-pill form-select-sm" })
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control form-control-sm" } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div>
+    <br /><br />@Html.ActionLink("Back to Index", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

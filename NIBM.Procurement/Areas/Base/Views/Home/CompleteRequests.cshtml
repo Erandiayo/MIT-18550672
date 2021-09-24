@@ -1,0 +1,127 @@
+﻿@using NIBM.Procurement.Areas.Base.Controllers
+
+@{
+    ViewBag.Title = "Requests to be Completed";
+}
+<br />
+<div>
+    <ul class="nav nav-pills nav-justified">
+        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#maintenanceReqComplete">Maintenance -<span style='color:#ff6a00'>@Html.Raw(ViewBag.MaintenanceReqCompleteCount)</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#douReqComplete">DOU -<span style='color:#ff6a00'>@Html.Raw(ViewBag.DOUReqCompleteCount)</span></a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="maintenanceReqComplete" class="tab-pane fade in active show">
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            Request Number
+                        </th>
+                        <th>
+                            Requested Date
+                        </th>
+                        <th>
+                            Requested By
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th>
+                            Issue Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.MaintenanceReqComplete)
+                    {
+                        <tr>
+                            <td>
+                                <a href="../../Hr/MaintenanceReq/CompleteDetails/?id=@item.RequestID&tile=true"><span class='bi bi-search btn btn-default btn-sm' style='color:black'></span></a>
+                            </td>
+                            <td>
+                                @item.ReqNo
+                            </td>
+                            <td>
+                                @item.ReqDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td>
+                                @item.ReqEmployee
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                @item.Category
+                            </td>
+                            <td>
+                                @item.IssueType
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+        </div>
+        <div id="douReqComplete" class="tab-pane fade">
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            Requested Date
+                        </th>
+                        <th>
+                            Branch
+                        </th>
+                        <th>
+                            Department
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Issue Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.DOUReqComplete)
+                    {
+                        <tr>
+                            <td>
+                                <a href="../../Hr/DOURequest/CompleteDetails/?id=@item.DOUReqID&tile=true"><span class='bi bi-search btn btn-default btn-sm' style='color:black'></span></a>
+                            </td>
+                            <td>
+                                @item.ReqDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td>
+                                @item.BranchDsc
+                            </td>
+                            <td>
+                                @item.DptDsc
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                @item.IssueType
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/notification")
+}

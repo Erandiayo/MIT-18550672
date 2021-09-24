@@ -1,0 +1,116 @@
+﻿
+@model NIBM.Procurement.Areas.Procurement.Models.TenderVM
+
+@{
+    ViewBag.Title = "Edit Tedners";
+}
+
+<div>
+    @using (Html.BeginForm("Edit", "TenderOpen", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.TenderID)
+        @Html.HiddenFor(model => model.RowVersion)
+        @Html.HiddenFor(model => model.ProcReqId)
+
+        <div class="form-horizontal">
+            <br />
+            <p>
+                <input type="submit" value="Save" class="btn btn-primary" style="min-width:75px" />
+                <div class="d-grid gap-2 d-md-block">
+
+                    @{
+                        <span style="font-weight:bold; margin-right:2%;" class="float-right"> ( DG Approved on @(Model.DGAppORRejDate.ToDateString("yyyy-MM-dd")))</span> <br />
+
+                    }
+                </div>
+            </p>
+            <br />
+            <br />
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.TenderOpenedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.TenderOpenedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", type = "JQ-date" } })
+                    </div>
+                    @Html.LabelFor(model => model.TenderClosedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.TenderClosedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", type = "JQ-date" } })
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ReqByName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ReqByName, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.ReqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ReqDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.CompletedDate, "Completed Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.CompletedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ReqSubject, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group row">
+                @if (!Model.AttachmentLink.IsBlank())
+                {
+                    var Attachment = "Request Attachment";
+                    @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-download'></span></a>
+                    </div>
+                }
+                @Html.LabelFor(model => model.DivHeadName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.DivHeadName, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                </div>
+            </div>
+            <div class="form-group row">
+                @if (Model.UserFeedback != null)
+                {
+                    @Html.LabelFor(model => model.UserFeedback, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.UserFeedback, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    }
+    <div id="ChildContent">
+        @{ Html.RenderAction("ChildIndex", new { id = Model.TenderID, isToEdit = true }); }
+    </div>
+
+    <br />
+    <div>
+        @Html.ActionLink("Back to Index", "Index", "TenderOpen", new { area = "Procurement", numericVar1 = 3 }, null)
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/procurement/procurement")
+}

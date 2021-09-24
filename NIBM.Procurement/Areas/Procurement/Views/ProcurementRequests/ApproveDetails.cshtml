@@ -1,0 +1,110 @@
+﻿@using NIBM.Procurement
+@model NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM
+
+@{
+    ViewBag.Title = "Procurement Requests Approve Details";
+}
+
+
+    <div class="form-horizontal">
+        <div class="form-group row">
+            <br />
+            @using (Html.BeginForm("Reject", "ProcurementRequests"))
+            {
+                @Html.HiddenFor(model => model.ProReqID)
+                @Html.HiddenFor(model => model.RowVersion)
+
+        <div class="d-grid gap-2 d-md-block">
+            @if (Model.Status.In(ProcurementReqStatus.PendingApproval, ProcurementReqStatus.HRRecommended))
+            {
+                @Html.ConfirmSubmitButton("Reject", "Are you sure you want to reject?", "Confirm request rejection",
+                                   "<span class='bi bi-x-circle'></span>&nbsp;&nbspReject", new { @class = "btn btn-danger", style = "min-width:75px" })
+               
+                @Html.ConfirmSubmitButton("Approve", "Are you sure you want to approve?", "Confirm request approval",
+                                   "<span class='bi bi-check-circle'></span>&nbsp;&nbspApprove", new { @class = "btn btn-success", style = "min-width:75px" }, "btn-success", "Approve")
+
+            }
+            @if (Model.Status.In(ProcurementReqStatus.ProcurementDeptReceived))
+            {
+                 @Html.ConfirmSubmitButton("Reject", "Are you sure you want to reject this? ",
+                 "Confirm request rejection", "<span class='bi bi-hand-thumbs-up'></span> Reject",
+                 new { @class = "btn btn-danger", style = "min-width:75px" }, "btn-danger", "RejectForUser")
+                
+                @Html.ConfirmSubmitButton("Approve", "Are you sure you want to approve?", "Confirm request approval",
+                 "<span class='bi bi-check-circle'></span>&nbsp;&nbspApprove", new { @class = "btn btn-success", style = "min-width:75px" }, "btn-success", "ApproveForDepartment")
+               
+                @Html.ConfirmSubmitButton("Recommend", "Are you sure you want to recommend this? ",
+                 "Confirm receiving for recommendation", "<span class='bi bi-hand-thumbs-up'></span> Recommend",
+                 new { @class = "btn btn-primary", style = "min-width:75px" }, "btn-primary", "Recommend")
+
+            }
+            else if (Model.Status == NIBM.Procurement.ProcurementReqStatus.DivisionHeadApproved)
+            {
+                <div style="margin-bottom:20px;" align="center">
+                    <span style="font-weight:bold;color:green;"> Division Head approved </span>
+                </div>
+            }
+            else if (Model.Status == NIBM.Procurement.ProcurementReqStatus.DivisionHeadRejected)
+            {
+                <div style="margin-bottom:20px;" align="center">
+                    <span style="font-weight:bold;color:green;">  Division Head rejected </span>
+                </div>
+            }
+        </div>
+
+            }
+            </div>
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
+            <div class="form-group row">
+                @Html.LabelFor(model => model.RequestBY, htmlAttributes: new { @class = "control-label col-md-2" })
+               
+                <div class="col-md-4">
+                    @Html.DetailsViewFor(model => model.RequestBY)
+                </div>
+               
+                @Html.LabelFor(model => model.ReqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+               
+                <div class="col-md-4">
+                    @Html.DetailsViewFor(model => model.ReqDate)
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DetailsViewFor(model => model.ReqSubject)
+                </div>
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DetailsViewFor(model => model.Description)
+                </div>
+            </div>
+            <div class="form-group row">
+                @if (!Model.AttachmentLink.IsBlank())
+                {
+                    var Attachment = "";
+                    @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-search'></span> View</a>
+                    </div>
+                }
+                @Html.LabelFor(model => model.DivHeadName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DetailsViewFor(model => model.DivHeadName)
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="ChildContent">
+            @{ Html.RenderAction("ChildIndex", new { id = Model.ProReqID, isToEdit = false }); }
+        </div>
+        <div>
+            @Html.ActionLink("Back to Index", "Requests", "Home", new { area = "Base" }, null)
+        </div>
+
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/procurement/procurement")
+        }

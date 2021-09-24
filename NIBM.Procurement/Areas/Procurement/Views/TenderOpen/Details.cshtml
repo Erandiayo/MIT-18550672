@@ -1,0 +1,171 @@
+﻿@using NIBM.Procurement
+@model NIBM.Procurement.Areas.Procurement.Models.TenderVM
+
+@{
+    ViewBag.Title = "Tender Details";
+}
+
+@{ Html.RenderPartial("~/Areas/Base/Views/Shared/_PartialAlert.cshtml"); }
+<div class="form-horizontal">
+    <div class="form-group row">
+        <br />
+        @using (Html.BeginForm("Delete", "TenderOpen"))
+        {
+
+            @Html.HiddenFor(model => model.TenderID)
+            @Html.HiddenFor(model => model.IsTile)
+            @Html.HiddenFor(model => model.RowVersion)
+
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <div class="d-grid gap-2 d-md-block justify-content-evenly">
+                        <span style="font-weight:bold; font-size:14px; margin-right:8%;" class="bi bi-circle-fill float-right
+                                @(Model.TenderStatus == TenderStatus.TenderOpen ? "gray-status" : Model.TenderStatus == TenderStatus.TenderClosed ? "orange-status"
+                                    : Model.TenderStatus == TenderStatus.TECSelected ? "light-blue-status" : Model.TenderStatus == TenderStatus.TECRecommend ? "blue-status" : "green-status")">
+                            &nbsp; @Model.TenderStatus.ToEnumChar()
+                        </span>
+                        <br />
+                        <br />
+                        @if (Model.TenderClosedDate <= DateTime.Today && Model.TenderStatus == TenderStatus.TenderOpen)
+                        {
+                            @Html.ConfirmSubmitButton("Close Tender", "Once the Tender is closed, no changes can be made. Are you sure you want to close tender? ",
+                                                      "Confirm Close Tender", "<span class='bi bi-hand-thumbs-up'></span> Close Tender",
+                                                      new { @class = "btn btn-success", style = "min-width:75px" }, "btn-success", "CloseTender")
+
+                            @Html.ConfirmSubmitButton("<span class='bi bi-arrow-right-circle'></span>&nbsp;Close Tender", "Are you sure to close the tender?", "Confirm Tender Close",
+                               "<span class='bi bi-arrow-right-circle'></span>&nbsp;&nbspClose Tender", new { @class = "btn btn-success btn-sm", style = "min-width:50px; margin-bottom:4px;" }, "btn-success",
+                               jsFunction: "CloseTenderIndex")
+                            <span style="font-weight: bold; text-align: right; margin-right: 8%; " class="float-right col-md-4"> ( DG Approved on @(Model.DGAppORRejDate.ToDateString("yyyy-MM-dd")))</span>
+                        }
+                        else if (Model.TenderStatus == TenderStatus.TenderClosed)
+                        {
+                            @Html.ActionLink("Appoint TEC", "AppointTec", routeValues: new { id = Model.ProcReqId, tile = false }, htmlAttributes: new { @class = "btn btn-success mb-2 mt-2" })
+                            <span style="font-weight: bold; text-align: right; margin-right: 8%; " class="float-right col-md-4"> ( DG Approved on @(Model.DGAppORRejDate.ToDateString("yyyy-MM-dd")))</span>
+                        }
+                        else if (Model.TenderStatus == TenderStatus.TECRecommend)
+                        {
+                            @Html.ActionLink("Approve By Board", "BoardApprove", "TenderOpen", routeValues: new { id = Model.ProcReqId, tile = true }, htmlAttributes: new { @class = "btn btn-success mb-2 mt-2" })
+                            <span style="font-weight: bold; text-align: right; margin-right: 8%;" class="float-right col-md-4"> ( DG Approved on @(Model.DGAppORRejDate.ToDateString("yyyy-MM-dd")))</span> <br />
+                        }
+                    </div>
+                </div>
+                <div class="card-body px-5 pb-5">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.TenderOpenedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.TenderOpenedDate)
+                            </div>
+                            @Html.LabelFor(model => model.TenderClosedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.TenderClosedDate)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.ReqByName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.ReqByName)
+                            </div>
+                            @Html.LabelFor(model => model.ReqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.ReqDate)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.CompletedDate, "Completed Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.CompletedDate)
+                            </div>
+                            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.Comments)
+                                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.ReqSubject)
+                            </div>
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.Description)
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group row">
+                            @if (!Model.AttachmentLink.IsBlank())
+                            {
+                                var Attachment = "";
+                                @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-download'></span></a>
+                                </div>
+                            }
+                            @Html.LabelFor(model => model.DivHeadName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DetailsViewFor(model => model.DivHeadName)
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @if (Model.UserFeedback != null)
+                            {
+                                @Html.LabelFor(model => model.UserFeedback, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.DetailsViewFor(model => model.UserFeedback)
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div class="card shadow">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Vendor List</h6>
+    </div>
+    <div class="card-body px-5 pb-5">
+        <div class="ChildContent">
+            @{ Html.RenderAction("ChildIndex", new { id = Model.TenderID, isToEdit = false }); }
+        </div>
+    </div>
+</div>
+@if (Model.TenderStatus != TenderStatus.TenderOpen)
+{
+    <br />
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">TEC Members</h6>
+        </div>
+        <div class="card-body px-5 pb-5">
+            <div class="ChildContent">
+                @{ Html.RenderAction("ChildtecIndex", new { id = Model.TenderID, isToEdit = false }); }
+            </div>
+        </div>
+    </div>
+
+}
+<br />
+<br />
+<div>
+    @if (Model.IsTile == true)
+    {
+        <br /><br />
+        @Html.ActionLink("Back to Index", "ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 3 }, null)
+    }
+    else
+    {
+        <br /><br />
+        @Html.ActionLink("Back to Index", "Index", "TenderOpen", new { area = "Procurement" }, null)
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/tender/tender")
+
+}
+

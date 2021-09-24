@@ -1,0 +1,132 @@
+﻿@using NIBM.Procurement
+@model NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM
+
+@if (Model.Status == ProcurementReqStatus.DGApproved && Model.IsTile == true)
+{
+    ViewBag.Title = "Procurement Approved Requests";
+}
+else if (Model.IsTile == true)
+{
+    ViewBag.Title = "Pending approvals for Procurement Requests";
+}
+else if (Model.Status == ProcurementReqStatus.DGApproved && Model.IsTile == true)
+{
+    ViewBag.Title = "Procurement Requests Approved Requests Details";
+}
+else
+{
+    ViewBag.Title = "Procurement Requests Details";
+}
+
+
+<div class="form-horizontal">
+    <div class="form-group row">
+        <br />
+        @using (Html.BeginForm("FeedbackEdit", "ProcurementRequests"))
+        {
+            @Html.HiddenFor(model => model.ProReqID)
+            @Html.HiddenFor(model => model.RowVersion)
+
+            <p>
+                <div class="d-grid gap-2 d-md-block">
+                    <input type="submit" value="Save" class="btn btn-primary" style="min-width:75px" />
+                </div>
+            </p>
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.RequestBY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.RequestBY)
+                    </div>
+                    @Html.LabelFor(model => model.ReqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.ReqDate)
+                    </div>
+                </div>
+                @if (Model.Status.In(ProcurementReqStatus.DGApproved, ProcurementReqStatus.HRApproved))
+                {
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.CompletedDate, "Completed Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.CompletedDate, "Date", new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", type = "JQ-date", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.CompletedDate, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+                @if (Model.Status.In(ProcurementReqStatus.ItemReceived) && Model.Comments != null)
+                {
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.CompletedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.CompletedDate)
+                        </div>
+                        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DetailsViewFor(model => model.Comments)
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.ReqSubject)
+                    </div>
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DetailsViewFor(model => model.Description)
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group row">
+                @if (!Model.AttachmentLink.IsBlank())
+                {
+                    var Attachment = "";
+                    @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-search'></span> View</a>
+                        @*@Html.ActionLink("View", "GetAttachment", new { id = Model.ProReqID }, new { @class = "bi bi-download", style = "min-width:75px" })*@
+                    </div>
+                }
+                @Html.LabelFor(model => model.DivisionHead, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DetailsViewFor(model => model.DivisionalHead)
+                </div>
+            </div>
+            <div class="form-group row">
+                @if ((Model.Status == ProcurementReqStatus.ItemReceived) && (!Model.IsTile))
+                {
+                    @Html.LabelFor(model => model.UserFeedback, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.UserFeedback, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                        @Html.ValidationMessageFor(model => model.UserFeedback, "", new { @class = "text-danger" })
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+<div class="ChildContent">
+    @{ Html.RenderAction("ChildIndex", new { id = Model.ProReqID, isToEdit = false }); }
+</div>
+@if (Model.TempNo == 2)
+{@Html.ActionLink("Back to List", "ProcurementProcess", "Home", new { area = "Base" }, null) }
+else
+{
+<div>
+    <br/><br/>@Html.ActionLink("Back to Index", "Index", "ProcurementRequests", new { area = "Procurement" }, null)
+</div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/procurement/procurement")
+}

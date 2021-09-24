@@ -1,0 +1,32 @@
+﻿@model NIBM.Procurement.Areas.Base.Models.ReportParameterVM
+
+@{
+    ViewBag.Title = "Tender Details of Tender";
+}
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        <br />
+        <p>
+            <input type="submit" value="Generate" class="btn btn-primary" style="min-width:75px" />
+        </p>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            @Html.LabelFor(model => model.NumericPara1, "Procurement Request", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.PopUpSelectorFor(model => model.NumericPara1, "Base", "Data", "GetProcRequests", new { @class = "form-select form-select-sm form-control form-control-sm rounded-pill" }, "Please select a Request", new { tenderAvailable = true }, "-- Select --", "{1} - {2}", hiddenIndices: "0")
+                @Html.ValidationMessageFor(model => model.NumericPara1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Home", "Index", "Home", new { area = "Base" }, null)
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/procurement/reports")
+}

@@ -1,0 +1,150 @@
+﻿@model NIBM.Procurement.Areas.Procurement.Models.ProcuremenetRequestVM
+@{
+    ViewBag.Title = "Complete Payment";
+}
+
+<div class="form-horizontal">
+    <div class="form-group row">
+        <br />
+        @using (Html.BeginForm("CompletePayment", "ProcurementProcess"))
+        {
+            @Html.HiddenFor(model => model.RowVersion)
+            @Html.HiddenFor(model => model.ProReqID)
+            @Html.HiddenFor(model => model.IsTile)
+
+            <br />
+            <div class="card text-dark bg-light mb-3">
+                <div class="card-header">
+                    <p>
+                        <div class="d-grid gap-2 d-md-block">
+                            <input type="submit" value="Complete Payment" class="btn btn-success" style="min-width:75px" />
+                        </div>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.AmountPurchased, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.AmountPurchased, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
+                                @Html.ValidationMessageFor(model => model.AmountPurchased, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.ProcessType, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.ProcessType, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        @if (Model.AwardedVendorId != null)
+                        {
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.AwardedVendor, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.AwardedVendor, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        }
+                        @if (Model.TenderID != null)
+                        {
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.TenderOpenedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.TenderOpenedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                                </div>
+                                @Html.LabelFor(model => model.TenderClosedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.TenderClosedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.TecApprovedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.TecApprovedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                                </div>
+                                @Html.LabelFor(model => model.TenderBoardApprovedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.TenderBoardApprovedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.EmpName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.EmpName, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                            </div>
+                            @Html.LabelFor(model => model.ReqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.ReqDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.ReqSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.ReqSubject, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                            </div>
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group row">
+                            @if (!Model.AttachmentLink.IsBlank())
+                            {
+                                var Attachment = "Request Attachment";
+                                @Html.LabelFor(model => Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    <a href=@Model.AttachmentLink class="btn btn-primary" target="_blank"><span class='bi bi-download'></span></a>
+                                </div>
+                            }
+                            @Html.LabelFor(model => model.DivHeadName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.DivHeadName, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @if (Model.UserFeedback != null)
+                            {
+                                @Html.LabelFor(model => model.UserFeedback, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.UserFeedback, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+<div class="card shadow">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Item List</h6>
+    </div>
+    <div class="card-body px-5 pb-5">
+        <div class="ChildContent">
+            @{ Html.RenderAction("ChildIndex", new { id = Model.ProReqID, isToEdit = false }); }
+        </div>
+    </div>
+</div>
+<br />
+<div>
+    <br /><br />@Html.ActionLink("Back to Index", "ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 4 }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/tender/tender")
+
+
+}

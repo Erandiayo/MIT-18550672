@@ -1,0 +1,87 @@
+﻿.card-background {
+    background-color: white;
+    box-shadow: 0 5px 5px 5px rgb(0 0 0 / 20%);
+    border-left: 2px solid #8788b4;
+    width: 250px;
+    height: 150px;
+    margin-bottom: 25px;
+}
+
+.title-text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #0d6efd !important;
+    height: 50px;
+    font-size: 14px;
+    text-align: center;
+    margin: 0px -5px -13px !important;
+    margin-top: -12px !important;
+    font-weight: 550;
+}
+
+.child-text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #0d6efd !important;
+    font-size: 12px;
+    height: 50px;
+    opacity: 2.5 !important;
+    display: block !important;
+}
+
+.icon {
+    margin-top: 13px;
+    font-size: 25px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.hr {
+    color: #0d6efd;
+    margin-bottom: 9px;
+    margin-top: 23px !important;
+    opacity: 1.25 !important;
+}
+.image-report {
+    min-height: 170px;
+    max-height: 170px;
+}
+.image-report:hover {
+    width: 255px;
+    font-size: 18px !important;
+    transition: .4s linear all;
+}
+
+    .image-report:hover + .text-report {
+        display: none;
+        
+    }
+.icon2 {
+    height: 150px;
+    background-color: #0765efc4 !important;
+    width: 52px;
+    margin-left: 30px;
+}
+@media only screen and (max-width: 768px) {
+    .image-report:hover {
+        width: 230px;
+        transition: .2s linear all;
+    }
+    .image-report {
+        min-height: 0;
+        max-height: 0;
+    }
+
+    .card-background {
+        width: 250px;
+    }
+
+    .text-report {
+
+        height:90px; 
+        margin-left:195px !important;
+        height:147px !important;
+    }
+
+}

@@ -1,0 +1,128 @@
+﻿@model NIBM.Procurement.Areas.Base.Models.DashBoardVM
+
+<link href="~/Content/ChartsStyle.css" rel="stylesheet" />
+<script src="~/Scripts/Chart.custom.js"></script>
+
+@{
+    var strDate = DateTime.Now.ToString("dd-MMM-yyyy");
+}
+
+<body>
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 justify-content-center">
+                        <div class="card-counter success col-md-12" style="max-height:150px !important">
+                            <a href="@Url.Action("Create", "ProcurementRequests", new { area = "Procurement" })">
+                                <div class="row g-0" style="margin-top:-2%;">
+                                    <div class="card-text-div col-md-10 col-sm-8 col-lg-10">
+                                        <span class="count-numbers" style="color: white !important"></span>
+                                        <span class="count-name" style="color:white !important;font-size:x-large;line-height:72px;"><center>New Request</center></span>
+                                    </div>
+                                    <div class="card-icon-div col-md-2 col-sm-4 col-lg-2">
+                                        <span class="card-icon bi bi-pencil-square" style="color: white !important"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card-counter primary" style="max-height:150px !important">
+                            <a href="@Url.Action("ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 1 })">
+                                <div class="row g-0" style="margin-top:-2%;">
+                                    <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                        <span class="count-numbers" style="color: white !important">@Model.ApprovalPending</span>
+                                        <span class="count-name" style="color: white !important">Approval<span class="sub-name">Pending</span></span>
+                                    </div>
+                                    <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                        <span class="card-icon bi bi-check2-square" style="color: white !important"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-counter bg-secondary col-md-3" style="max-height:150px !important">
+                        <a href="@Url.Action("Requests", "ApproveRequest", new { area = "Procurement" })">
+                            <div class="row g-0" style="margin-top:-2%;">
+                                <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                    <span class="count-numbers" style="color: white !important">@Model.DivApprovalPending</span>
+                                    <span class="count-name" style="color: white !important">Division<span class="sub-name">Pending Approval</span></span>
+                                </div>
+                                <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                    <span class="card-icon bi bi-check-square" style="color: white !important"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 justify-content-center">
+                            <div class="card-counter bg-warning" style="max-height:150px !important">
+                                <a href="@Url.Action("ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 2 })">
+                                    <div class="row g-0" style="margin-top:-2%;">
+                                        <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                            <span class="count-numbers" style="color: white !important">@Model.OnProcess</span>
+                                            <span class="count-name" style="color: white !important">Process<span class="sub-name">On</span></span>
+                                        </div>
+                                        <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                            <span class="card-icon bi bi-hourglass-split" style="color: white !important"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4 justify-content-center">
+                            <div class="card-counter info" style="max-height:150px !important">
+                                <a href="@Url.Action("ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 3 })">
+                                    <div class="row g-0" style="margin-top:-2%;">
+                                        <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                            <span class="count-numbers" style="color: white !important">@Model.OnTenderProcess</span>
+                                            <span class="count-name" style="color: white !important">Tender Process<span class="sub-name">On</span></span>
+                                        </div>
+                                        <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                            <span class="card-icon bi bi-journal-text" style="color: white !important"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 justify-content-center">
+                            <div class="card-counter danger" style="max-height:150px !important">
+                                <a href="@Url.Action("ProcurementProcessIndex", "ProcurementProcess", new { area = "Procurement", numericVar1 = 4 })">
+                                    <div class="row g-0" style="margin-top:-2%;">
+                                        <div class="card-text-div col-md-8 col-sm-8 col-xs-8">
+                                            <span class="count-numbers" style="color: white !important">@Model.PendingCompletion</span>
+                                            <span class="count-name" style="color: white !important">Completion<span class="sub-name">Pending</span></span>
+                                        </div>
+                                        <div class="card-icon-div col-md-4 col-sm-4 col-xs-4">
+                                            <span class="card-icon bi bi-journal-check" style="color: white !important"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+@*@Html.CreateChart("chart1", Model.MonthlyCompletion)
+    @Html.CreateChart("chart2", Model.RequestsByBranch)*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/notification")
+}
