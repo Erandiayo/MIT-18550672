@@ -618,25 +618,9 @@
     <Compile Include="Common\DB\migrations\20210610182010_04.designer.cs">
       <DependentUpon>20210610182010_04.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\DB\migrations\20210614110659_05.cs" />
-    <Compile Include="Common\DB\migrations\20210614110659_05.designer.cs">
-      <DependentUpon>20210614110659_05.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Common\DB\migrations\20210616123546_6.cs" />
-    <Compile Include="Common\DB\migrations\20210616123546_6.designer.cs">
-      <DependentUpon>20210616123546_6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Common\DB\migrations\20210823064632_test7.cs" />
-    <Compile Include="Common\DB\migrations\20210823064632_test7.designer.cs">
-      <DependentUpon>20210823064632_test7.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Common\DB\migrations\20210907104246_test8.cs" />
-    <Compile Include="Common\DB\migrations\20210907104246_test8.designer.cs">
-      <DependentUpon>20210907104246_test8.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Common\DB\migrations\20210908111821_Test9.cs" />
-    <Compile Include="Common\DB\migrations\20210908111821_Test9.designer.cs">
-      <DependentUpon>20210908111821_Test9.cs</DependentUpon>
+    <Compile Include="Common\DB\migrations\20210924190336_05.cs" />
+    <Compile Include="Common\DB\migrations\20210924190336_05.designer.cs">
+      <DependentUpon>20210924190336_05.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\DB\migrations\dbNIBMContextModelSnapshot.cs" />
     <Compile Include="Common\Enums.cs" />

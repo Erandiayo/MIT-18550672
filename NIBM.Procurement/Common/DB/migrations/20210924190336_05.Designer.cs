@@ -10,8 +10,8 @@ using NIBM.Procurement.DB;
 namespace NIBM.Procurement.common.db.migrations
 {
     [DbContext(typeof(dbNIBMContext))]
-    [Migration("20210908111821_Test9")]
-    partial class Test9
+    [Migration("20210924190336_05")]
+    partial class _05
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -516,8 +516,11 @@ namespace NIBM.Procurement.common.db.migrations
                             Action = "Index",
                             Area = "Admin",
                             Controller = "Branches",
+                            Description = "null",
                             DisplaySeq = 10,
+                            Icon = "fas fa-map-marked-alt",
                             IsHide = false,
+                            ParentMenuID = 14,
                             Reporttype = 0,
                             Text = "Branches",
                             Type = "I"
@@ -528,8 +531,11 @@ namespace NIBM.Procurement.common.db.migrations
                             Action = "Index",
                             Area = "Admin",
                             Controller = "Departments",
+                            Description = "null",
                             DisplaySeq = 20,
+                            Icon = "fas fa-vihara",
                             IsHide = false,
+                            ParentMenuID = 14,
                             Reporttype = 0,
                             Text = "Departments",
                             Type = "I"
@@ -540,8 +546,11 @@ namespace NIBM.Procurement.common.db.migrations
                             Action = "Index",
                             Area = "Admin",
                             Controller = "BranchDepartments",
+                            Description = "null",
                             DisplaySeq = 30,
+                            Icon = "fas fa-warehouse",
                             IsHide = false,
+                            ParentMenuID = 14,
                             Reporttype = 0,
                             Text = "Branch Departments",
                             Type = "I"
@@ -551,11 +560,14 @@ namespace NIBM.Procurement.common.db.migrations
                             MenuID = 4,
                             Action = "Index",
                             Area = "Admin",
-                            Controller = "SubDepartment",
-                            DisplaySeq = 40,
+                            Controller = "Designations",
+                            Description = "null",
+                            DisplaySeq = 50,
+                            Icon = "fas fa-people-arrows",
                             IsHide = false,
+                            ParentMenuID = 14,
                             Reporttype = 0,
-                            Text = "Sub Departments",
+                            Text = "Designations",
                             Type = "I"
                         },
                         new
@@ -563,11 +575,14 @@ namespace NIBM.Procurement.common.db.migrations
                             MenuID = 5,
                             Action = "Index",
                             Area = "Admin",
-                            Controller = "Designations",
-                            DisplaySeq = 50,
+                            Controller = "Employees",
+                            Description = "null",
+                            DisplaySeq = 60,
+                            Icon = "fas fa-user-tie",
                             IsHide = false,
+                            ParentMenuID = 14,
                             Reporttype = 0,
-                            Text = "Designations",
+                            Text = "Employees",
                             Type = "I"
                         },
                         new
@@ -575,11 +590,14 @@ namespace NIBM.Procurement.common.db.migrations
                             MenuID = 6,
                             Action = "Index",
                             Area = "Admin",
-                            Controller = "Employees",
-                            DisplaySeq = 60,
+                            Controller = "UserRoles",
+                            Description = "null",
+                            DisplaySeq = 10,
+                            Icon = "fas fa-address-card",
                             IsHide = false,
+                            ParentMenuID = 13,
                             Reporttype = 0,
-                            Text = "Employees",
+                            Text = "User Roles",
                             Type = "I"
                         },
                         new
@@ -587,56 +605,53 @@ namespace NIBM.Procurement.common.db.migrations
                             MenuID = 7,
                             Action = "Index",
                             Area = "Admin",
-                            Controller = "UserRoles",
-                            DisplaySeq = 70,
-                            IsHide = false,
-                            Reporttype = 0,
-                            Text = "User Roles",
-                            Type = "I"
-                        },
-                        new
-                        {
-                            MenuID = 8,
-                            Action = "Index",
-                            Area = "Admin",
                             Controller = "Users",
-                            DisplaySeq = 80,
+                            Description = "null",
+                            DisplaySeq = 20,
+                            Icon = "fa-solid fa-users",
                             IsHide = false,
+                            ParentMenuID = 13,
                             Reporttype = 0,
                             Text = "Users",
                             Type = "I"
                         },
                         new
                         {
-                            MenuID = 9,
+                            MenuID = 8,
                             Action = "Index",
                             Area = "Procurement",
                             Controller = "ProcurementRequests",
+                            Description = "null",
                             DisplaySeq = 90,
+                            Icon = "fas fa-envelope-open-text",
                             IsHide = false,
                             Reporttype = 0,
-                            Text = "Procurement Request",
+                            Text = "New Request",
+                            Type = "I"
+                        },
+                        new
+                        {
+                            MenuID = 9,
+                            Action = "Requests",
+                            Area = "Procurement",
+                            Controller = "ApproveRequest",
+                            Description = "null",
+                            DisplaySeq = 100,
+                            Icon = "fas fa-check-square",
+                            IsHide = false,
+                            Reporttype = 0,
+                            Text = "Pending Approval",
                             Type = "I"
                         },
                         new
                         {
                             MenuID = 10,
-                            Action = "Requests",
+                            Action = "ProcurementProcessIndex",
                             Area = "Procurement",
-                            Controller = "ProcurementRequests",
-                            DisplaySeq = 100,
-                            IsHide = false,
-                            Reporttype = 0,
-                            Text = "Approve Requests",
-                            Type = "I"
-                        },
-                        new
-                        {
-                            MenuID = 11,
-                            Action = "Requests",
-                            Area = "Procurement",
-                            Controller = "ProcurementRequests",
+                            Controller = "ProcurementProcess",
+                            Description = "null",
                             DisplaySeq = 110,
+                            Icon = "fas fa-exchange-alt",
                             IsHide = false,
                             Reporttype = 0,
                             Text = "Procurement Department Process",
@@ -644,14 +659,109 @@ namespace NIBM.Procurement.common.db.migrations
                         },
                         new
                         {
-                            MenuID = 12,
+                            MenuID = 11,
                             Action = "ProcurementRequestSummaryReport",
                             Area = "Procurement",
                             Controller = "Reports",
-                            DisplaySeq = 120,
+                            Description = "Requests within a selected duration(Filter: Branch / Department).",
+                            DisplaySeq = 20,
+                            Icon = "null",
+                            IsHide = true,
+                            ParentMenuID = 12,
+                            Reporttype = 1,
+                            Text = "Procurement Request Summary",
+                            Type = "I"
+                        },
+                        new
+                        {
+                            MenuID = 12,
+                            Description = "null",
+                            DisplaySeq = 140,
+                            Icon = "fas fa-file-alt",
                             IsHide = false,
                             Reporttype = 0,
-                            Text = "Procurement Request Summary",
+                            Text = "Reports",
+                            Type = "M"
+                        },
+                        new
+                        {
+                            MenuID = 13,
+                            Description = "null",
+                            DisplaySeq = 10,
+                            Icon = "fas fa-user-tie",
+                            IsHide = false,
+                            Reporttype = 0,
+                            Text = "Admin",
+                            Type = "M"
+                        },
+                        new
+                        {
+                            MenuID = 14,
+                            Description = "null",
+                            DisplaySeq = 20,
+                            Icon = "fas fa-building",
+                            IsHide = false,
+                            Reporttype = 0,
+                            Text = "Organization",
+                            Type = "M"
+                        },
+                        new
+                        {
+                            MenuID = 15,
+                            Action = "Index",
+                            Area = "Procurement",
+                            Controller = "TenderOpen",
+                            Description = "null",
+                            DisplaySeq = 120,
+                            Icon = "fas fa-dolly-flatbed",
+                            IsHide = false,
+                            Reporttype = 0,
+                            Text = "Tenders",
+                            Type = "I"
+                        },
+                        new
+                        {
+                            MenuID = 16,
+                            Action = "MonthlyProgressReport",
+                            Area = "Procurement",
+                            Controller = "Reports",
+                            Description = "null",
+                            DisplaySeq = 20,
+                            Icon = "null",
+                            IsHide = false,
+                            ParentMenuID = 12,
+                            Reporttype = 1,
+                            Text = "Monthly Progress Report",
+                            Type = "I"
+                        },
+                        new
+                        {
+                            MenuID = 17,
+                            Action = "TenderDetailsOfTenderReport",
+                            Area = "Procurement",
+                            Controller = "Reports",
+                            Description = "null",
+                            DisplaySeq = 30,
+                            Icon = "null",
+                            IsHide = false,
+                            ParentMenuID = 12,
+                            Reporttype = 1,
+                            Text = "Tender Details Of Tender",
+                            Type = "I"
+                        },
+                        new
+                        {
+                            MenuID = 18,
+                            Action = "ProcurementRequestDetailReport",
+                            Area = "Procurement",
+                            Controller = "Reports",
+                            Description = "null",
+                            DisplaySeq = 40,
+                            Icon = "null",
+                            IsHide = false,
+                            ParentMenuID = 12,
+                            Reporttype = 1,
+                            Text = "Procurement Request Detail Report",
                             Type = "I"
                         });
                 });
