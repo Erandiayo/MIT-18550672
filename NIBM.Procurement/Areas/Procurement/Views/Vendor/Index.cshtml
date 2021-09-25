@@ -9,60 +9,52 @@
     srchOpts.Add(new SelectListItem { Text = "Name", Value = "Name" });
     srchOpts.Add(new SelectListItem { Text = "Telephone No", Value = "TelNo" });
 }
-<div class="card shadow bg-light mt-1">
-    <div class="card-header py-3">
-        @Html.ActionLink("+ Add New Vendor", "Create", null, new { @class = "btn btn-primary btn-lg m-0", style = "min-width:75px" })
-    </div>
-    <div class="card-body pb-5">
-        @using (Html.BeginForm("Index", "Vendor", FormMethod.Get))
-        {
-            <div class="card text-dark bg-light mb-3">
-                <div class="card-body">
-                    <div class="form-horizontal row justify-content-center">
-                        <div class="col-md-4">
-                            <div class="form-group row">
-                                @Html.Label("Search By", htmlAttributes: new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("FilterBy", new SelectList(srchOpts, "Value", "Text"), htmlAttributes: new { @class = "form-control form-control-sm rounded-pill form-select-sm" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <input type="submit" value="Search" name="Search" class="btn btn-outline-secondary" />
-                        </div>
-                    </div>
+@using (Html.BeginForm("Index", null, FormMethod.Get))
+{
+    <p>
+        @Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary", style = "min-width:75px" })
+    </p>
+    <br />
+    <div class="form-horizontal row">
+        <div class="col-md-4">
+            <div class="form-group row">
+                @Html.Label("Search By", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.DropDownList("FilterBy", new SelectList(srchOpts, "Value", "Text"), htmlAttributes: new { @class = "form-control form-control-sm rounded-pill form-select-sm" })
                 </div>
             </div>
-
-            <div class="table-responsive mt-5" id="content">
-                @grid.GetHtml(
-                tableStyle: "table table-hover no-foot",
-                mode: WebGridPagerModes.All,
-                columns: grid.Columns(
-                grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-search' style='color:white'></span>", "View Details", "Details", routeValues: new { id = item.VendorID }, htmlAttributes: new { @class = "btn btn-primary btn-sm" }), style: "btn-1"),
-                grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-pencil-square' style='color:black'></span>", "Proceed to Edit", "Edit", routeValues: new { id = item.VendorID }, htmlAttributes: new { @class = "btn btn-warning btn-sm" }), style: "btn-1"),
-                grid.SortColumn(columnName: "Name", header: "Vendor Name"),
-                grid.SortColumn(columnName: "Address", header: "Address"),
-                grid.SortColumn(columnName: "NavVendorID", header: "Nav Code"),
-                grid.SortColumn(columnName: "TelNo", header: "Telephone No"),
-                grid.SortColumn(columnName: "FaxNo", header: "Fax No"),
-                grid.SortColumn(columnName: "Status", header: "Status", format: (item) => Html.NoEncodeLabel("<span class='bi bi-circle-fill " +
-                    (((NIBM.Procurement.ActiveState)item.Status) == NIBM.Procurement.ActiveState.Active ? "green-status" : "blood-red-status") + "'>"
-                    + "  " + ((Enum)item.Status).ToEnumChar() + "</span>", "", htmlAttributes: new { @class = "" }), style: "status-btn-grid")
-                ))
-
-                <div id="content-footer">
-                    @grid.PagerList(WebGridPagerModes.All, Model.PageSize, Model.TotalRecords)
+        </div>
+        <div class="col-md-3">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill" } })
                 </div>
             </div>
-        }
+        </div>
+        <div class="col-md-1">
+            <input type="submit" value="Search" name="Search" class="btn btn-outline-secondary" />
+        </div>
     </div>
-</div>
+
+    <div class="table-responsive mt-5" id="content">
+        @grid.GetHtml(
+        tableStyle: "table table-hover no-foot",
+        mode: WebGridPagerModes.All,
+        columns: grid.Columns(
+        grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-search' style='color:white'></span>", "View Details", "Details", routeValues: new { id = item.VendorID }, htmlAttributes: new { @class = "btn btn-primary btn-sm" }), style: "btn-1"),
+        grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-pencil-square' style='color:black'></span>", "Proceed to Edit", "Edit", routeValues: new { id = item.VendorID }, htmlAttributes: new { @class = "btn btn-warning btn-sm" }), style: "btn-1"),
+        grid.SortColumn(columnName: "Name", header: "Vendor Name"),
+        grid.SortColumn(columnName: "Address", header: "Address"),
+        grid.SortColumn(columnName: "NavVendorID", header: "Nav Code"),
+        grid.SortColumn(columnName: "TelNo", header: "Telephone No"),
+        grid.SortColumn(columnName: "FaxNo", header: "Fax No"),
+        grid.SortColumn(columnName: "Status", header: "Status", format: (item) => ((Enum)item.Status).ToEnumChar())
+        ))
+
+        <div id="content-footer">
+            @grid.PagerList(WebGridPagerModes.All, Model.PageSize, Model.TotalRecords)
+        </div>
+    </div>
+}
+
 

@@ -48,10 +48,7 @@
             grid.Column(null, null, format: (item) => Html.NoEncodeActionLink("<span class='bi bi-pencil-square' style='color:black'></span>", "Proceed to Edit", "Edit", routeValues: new { id = item.UserID }, htmlAttributes: new { @class = "btn btn-warning btn-sm" }), style: "btn-1"),
             grid.SortColumn(columnName: "UserName", header: "User Name"),
             grid.SortColumn(columnName: "EmpDspStr", header: "Employee"),
-            grid.SortColumn(columnName: "Status", header: "Status", format: (item) => Html.NoEncodeLabel("<span class='bi bi-circle-fill " +
-                    (((NIBM.Procurement.ActiveState)item.Status) == NIBM.Procurement.ActiveState.Active ? "green-status" : "blood-red-status") + "'>"
-                    + " " + ((Enum)item.Status).ToEnumChar() + "</span>", "", htmlAttributes: new { @class = "" }), style: "status-btn-grid")
-            //grid.SortColumn(columnName: "Status", header: "Status", format: (item) => ((Enum)item.Status).ToEnumChar())
+            grid.SortColumn(columnName: "Status", header: "Status", format: (item) => ((Enum)item.Status).ToEnumChar())
             ))
 
         <div id="content-footer">

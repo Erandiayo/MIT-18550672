@@ -560,10 +560,15 @@ namespace NIBM.Procurement.Areas.Procurement.Controllers
 
                     if (procuremenetRequest.SpecRecomnedOn == null)
                     { ModelState.AddModelError("SpecRecomnedOn", "Spec Received On Date is required."); }
+
                     if (procuremenetRequest.ProcessType == ProcurementProcessType.Last3monthprocess && procuremenetRequest.TenderID == null)
                     { ModelState.AddModelError("ReqNowithin3Months", "Tender must be selected for proceed with Last 3 Month Process Type."); }
 
+                    if (procuremenetRequest.ProcessType == null)
+                    { ModelState.AddModelError("ProcessType", "Process Type is required."); }
+
                     var sessionProcurement = Session.GetObject<ProcuremenetRequestVM>();
+                    
                     if (file != null)
                     {
                         byte[] bytes;

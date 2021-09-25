@@ -217,16 +217,19 @@
                                                 var viewbsg = ViewBag.ProcurementApp;
                                                 <input id="stringPara5" type="hidden" name="StringPara1">
                                                 <div class="d-grid gap-2 d-md-block">
-                                                    @Html.ConfirmSubmitButton("<span class='bi bi-check-circle'></span>&nbsp;Approve", "Are you sure you want to approve?", "Confirm request approval",
-                                                         "<span class='bi bi-check-circle'></span>&nbsp;&nbspApprove", new { @class = "btn btn-success", style = "min-width:75px;margin-bottom:4px;" }, "btn-success", "Approve"
-                                                         , jsFunction: "ProcReq2ndApprove")
-                                                    @if (ViewBag.IsHR)
+                                                    @if (!ViewBag.IsHR)
                                                     {
-                                                        @Html.ConfirmSubmitButton("<span class='bi bi-check-circle'></span>&nbsp;Recommend", "Are you sure you want to recommend this? ",
-                                                         "Confirm receiving for recommendation", "<span class='bi bi-hand-thumbs-up'></span> Recommend",
-                                                          new { @class = "btn btn-primary", style = "min-width:75px" }, "btn-primary", "Recommend", jsFunction: "Recommend")
+                                                        @Html.ConfirmSubmitButton("<span class='bi bi-check-circle'></span>&nbsp;Approve", "Are you sure you want to approve?", "Confirm request approval",
+                                                                  "<span class='bi bi-check-circle'></span>&nbsp;&nbspApprove", new { @class = "btn btn-success", style = "min-width:75px;margin-bottom:4px;" }, "btn-success", "Approve"
+                                                                  , jsFunction: "ProcReq2ndApprove")
                                                     }
-                                                </div>
+                                                        @if (ViewBag.IsHR)
+                                                        {
+                                                            @Html.ConfirmSubmitButton("<span class='bi bi-check-circle'></span>&nbsp;Recommend", "Are you sure you want to recommend this? ",
+                                                             "Confirm receiving for recommendation", "<span class='bi bi-hand-thumbs-up'></span> Recommend",
+                                                              new { @class = "btn btn-primary", style = "min-width:75px" }, "btn-primary", "Recommend", jsFunction: "Recommend")
+                                                        }
+                                                    </div>
                                             }
 
                                         </div>

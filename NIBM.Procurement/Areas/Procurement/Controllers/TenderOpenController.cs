@@ -66,8 +66,12 @@ namespace NIBM.Procurement.Areas.Procurement.Controllers
                     { ModelState.AddModelError("TenderOpenedDate", "Tender open date is required."); }
                     if (tender.TenderClosedDate == null)
                     { ModelState.AddModelError("TenderClosedDate", "Tender closed date is required."); }
+                    if(tender.TenderClosedDate < tender.TenderOpenedDate)
+                    { ModelState.AddModelError("TenderClosedDate", "Tender closed date should be greater than the tender opened date."); }
+                    
                     if (obj.TenderVendors.Count == 0)
                     { ModelState.AddModelError("", "Vendors connot be empty."); }
+                  
 
                     if (ModelState.IsValid)
                     {

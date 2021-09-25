@@ -73,24 +73,9 @@
                            }
                            else
                            {
-                               return Html.Raw(Html.NoEncodeLabel("<span class='bi bi-circle-fill " +
-                                   (((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.DGApproved ? "blue-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.DivisionHeadApproved ? "brown-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.Drafted ? "gray-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.HRApproved ? "blue-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.HRRecommended ? "orange-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.Incomplete ? "light-red-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.ItemReceived ? "purple-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.PendingApproval ? "yellow-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.ProcurementDeptReceived ? "light-blue-status" :
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.ReOpened ? "yellow-status" :
-                                   (((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.DGRejected ||
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.DivisionHeadRejected ||
-                                   ((NIBM.Procurement.ProcurementReqStatus)itm.Status) == NIBM.Procurement.ProcurementReqStatus.HRRejected) ? "blood-red-status" : "light-black-status") + "'>"
-                                   + " " + ((Enum)itm.Status).ToEnumChar() + "</span>", "", htmlAttributes: new { @class = "" }));
+                               return Html.Raw (((Enum)itm.Status).ToEnumChar());
                            }
-                           //{ return Html.Raw(itm.Status.ToEnumChar()); }
-                       }/*, style: "text-center"*/
+                       }
 
             )))
         <div id="content-footer">

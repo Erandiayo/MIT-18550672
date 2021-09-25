@@ -136,9 +136,6 @@ $(function () {
         var $this = $(this);
         var $Status = $('#tblProuReqRecommand').find('tbody tr td div table tbody tr td#status input[type="hidden"]').val();
 
-        //if ($Status == "Procurement Deptartment Received") { $('#ProcRecommond').show(); }
-        //else { $('#ProcRecommond').hide(); }
-
         $this.off("click");
         $this.on("click", function (e) {
             var $btn = $(this);

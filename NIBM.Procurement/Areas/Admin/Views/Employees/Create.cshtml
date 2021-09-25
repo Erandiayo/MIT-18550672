@@ -24,7 +24,7 @@
         <div class="form-group row">
             @Html.RequiredLabelFor(model => model.BranchID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
-                @Html.PopUpSelectorFor(model => model.BranchID, "Base", "Data", "GetBranches", new { @class = "form-select form-select-sm form-control form-control-sm rounded-pill" }, "Please select a Branch", dspFormat: "{1}", hiddenIndices: "0", dataParas: new { fromBranchDept = true })
+                @Html.PopUpSelectorFor(model => model.BranchID, "Base", "Data", "GetBranches", new { @class = "form-select form-select-sm form-control form-control-sm rounded-pill" }, "Please select a Branch", dspFormat: "{1}", hiddenIndices: "0")
                 @Html.ValidationMessageFor(model => model.BranchID, "", new { @class = "text-danger" })
             </div>
         </div>

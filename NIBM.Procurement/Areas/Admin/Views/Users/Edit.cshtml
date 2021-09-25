@@ -38,21 +38,6 @@
             </div>
            
         </div>
-
-        <div class="form-group row">
-            @Html.LabelFor(model => model.BranchID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.PopUpSelectorFor(model => model.BranchID, "Base", "Data", "GetBranches", new { @class = "form-select form-select-sm form-control form-control-sm rounded-pill" }, "Please select a Branch", new { fromBranchDept = true }, "-- Select --", "{1}", hiddenIndices: "0")
-                @Html.ValidationMessageFor(model => model.BranchID, "", new { @class = "text-danger" })
-            </div>
-
-            @Html.LabelFor(model => model.DepartmentID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.PopUpSelectorFor(model => model.DepartmentID, "Base", "Data", "GetDepartments", new { @class = "form-select form-select-sm form-control form-control-sm rounded-pill" }, "Please select a Department", new { fromBranchDept = true, branchID = Model.BranchID }, "-- Select --", "{1}", popUpWidth: 400, hiddenIndices: "0")
-                @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         <div class="form-group row">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

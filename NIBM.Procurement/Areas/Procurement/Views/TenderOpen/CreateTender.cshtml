@@ -31,9 +31,11 @@
                                 @Html.EditorFor(model => model.TenderOpenedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", type = "JQ-date" } })
                             </div>
                             @Html.LabelFor(model => model.TenderClosedDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.TenderClosedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", type = "JQ-date" } })
-                            </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.TenderClosedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", type = "JQ-date" } })
+                            @Html.ValidationMessageFor(model => model.TenderClosedDate, "", new { @class = "text-danger" })
+
+                        </div>
                         </div>
                         <div class="form-group row">
                             @Html.LabelFor(model => model.ReqByName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -50,6 +52,8 @@
                             @Html.LabelFor(model => model.CompletedDate, "Completed Date", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-4">
                                 @Html.EditorFor(model => model.CompletedDate, new { htmlAttributes = new { @class = "form-control form-control-sm rounded-pill", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.CompletedDate, "", new { @class = "text-danger" })
+
                             </div>
                             @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-4">

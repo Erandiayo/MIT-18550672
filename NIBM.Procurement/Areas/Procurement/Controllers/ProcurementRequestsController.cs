@@ -881,7 +881,7 @@ namespace NIBM.Procurement.Controllers
             var CurEmpId = CurUser.EmployeeID;
 
             var reqList = new List<ProcuremenetRequestVM>();
-            reqList = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && x.ReqBy == CurEmpId && x.Status == ProcurementReqStatus.PaymentComplete && x.UserFeedback == "").AsEnumerable()
+            reqList = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && x.ReqBy == CurEmpId && x.Status == ProcurementReqStatus.PaymentComplete && x.UserFeedback == null).AsEnumerable()
                         .Select(x => new ProcuremenetRequestVM(x)).OrderByDescending(x => x.CompletedDate).ToList();
             return View(reqList);
         }

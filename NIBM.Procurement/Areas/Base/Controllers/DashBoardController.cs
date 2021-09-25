@@ -37,7 +37,7 @@ namespace NIBM.Procurement.Areas.Base.Controllers
             totRequests = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && x.ReqBy == CurEmpId).Count();
             
             pendingFeedbacksCount = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && 
-            x.ReqBy == CurEmpId && x.Status == ProcurementReqStatus.PaymentComplete && x.UserFeedback == "").Count();
+            x.ReqBy == CurEmpId && x.Status == ProcurementReqStatus.PaymentComplete && x.UserFeedback == null).Count();
            
             pendingCount = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue &&
             (x.Status == ProcurementReqStatus.PendingApproval && x.DivisionHead == CurEmpId)).Count();

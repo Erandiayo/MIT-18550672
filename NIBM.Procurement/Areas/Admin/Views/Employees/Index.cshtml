@@ -1,7 +1,6 @@
 ﻿@model NIBM.Procurement.Common.BaseViewModel<NIBM.Procurement.Areas.Admin.Models.EmployeeVM>
 
 <link href="~/Content/ChartsStyle.css" rel="stylesheet" />
-<script src="~/Scripts/Chart.custom.js"></script>
 <script src="~/Scripts/Layout/jquery.nicescroll.js"></script>
 
 @{
@@ -15,9 +14,6 @@
     srchOpts.Add(new SelectListItem { Text = "Full Name", Value = "FullName" });
     srchOpts.Add(new SelectListItem { Text = "NIC No", Value = "NICNo" });
     srchOpts.Add(new SelectListItem { Text = "Status", Value = "Status" });
-
-    NIBM.Procurement.Areas.Base.Models.ChartConfig branchEmpCount = ViewBag.BranchEmpCount;
-    List<NIBM.Procurement.DB.Entities.Employee> retireList = (List<NIBM.Procurement.DB.Entities.Employee>)ViewBag.RetireEmp;
 }
 
 @using (Html.BeginForm("Index", null, FormMethod.Get))
