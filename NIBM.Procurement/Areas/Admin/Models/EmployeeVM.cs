@@ -87,6 +87,5 @@ namespace NIBM.Procurement.Areas.Admin.Models
         [DisplayName("Sub Department")]
         public string SubDepartmentDesc { get; set; }
         public string SupervisorName { get; set; }
-        public virtual SubDepartment SubDepartment { get; set; }
     }
 }

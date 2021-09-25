@@ -29,29 +29,32 @@ namespace NIBM.Procurement.Areas.Base.Controllers
             var CurUser = db.Users.Find(CurUserID);
             var CurEmpId = CurUser.EmployeeID;
             var curEmpdesigId = CurUser.Employee.DesignationID;
-            DateTime startDate = new DateTime(DateTime.Now.Year, 01, 01, 00, 00, 00);
-            DateTime endDate = new DateTime(DateTime.Now.Year, 12, 31, 23, 59, 59);
-            var qry = db.ProcuremenetRequests.Where(y => y.ReqDate >= startDate && y.ReqDate <= endDate).AsQueryable();
             int pendingCount = 0;
             int pendingDivCount = 0;
             int pendingFeedbacksCount = 0;
             int totRequests = 0;
 
-            totRequests = qry.AsQueryable().Where(x => CurEmpId.HasValue && x.ReqBy == CurEmpId).Count();
-            pendingFeedbacksCount = qry.AsQueryable().Where(x => CurEmpId.HasValue && x.ReqBy == CurEmpId && x.Status == ProcurementReqStatus.PaymentComplete && x.UserFeedback == "").Count();
-            pendingCount = qry.AsQueryable().Where(x => CurEmpId.HasValue && (x.Status == ProcurementReqStatus.PendingApproval && x.DivisionHead == CurEmpId)).Count();
+            totRequests = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && x.ReqBy == CurEmpId).Count();
+            
+            pendingFeedbacksCount = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && 
+            x.ReqBy == CurEmpId && x.Status == ProcurementReqStatus.PaymentComplete && x.UserFeedback == "").Count();
+           
+            pendingCount = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue &&
+            (x.Status == ProcurementReqStatus.PendingApproval && x.DivisionHead == CurEmpId)).Count();
 
             //----------------- Pending HR Approvals count ------------------- 
             if (curEmpdesigId == 3)
             {
-                pendingDivCount = qry.AsQueryable().Where(x => CurEmpId.HasValue && (x.Status == ProcurementReqStatus.ProcurementDeptReceived)).Count();
+                pendingDivCount = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && 
+                (x.Status == ProcurementReqStatus.ProcurementDeptReceived)).Count();
                 pendingCount = pendingDivCount + pendingCount;
             }
 
             //----------------- Pending DG Approvals  ------------------- 
             if (curEmpdesigId == 4)
             {
-                pendingCount = qry.AsQueryable().Where(x => CurEmpId.HasValue && (x.Status == ProcurementReqStatus.HRRecommended || (x.Status == ProcurementReqStatus.PendingApproval 
+                pendingCount = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && 
+                (x.Status == ProcurementReqStatus.HRRecommended || (x.Status == ProcurementReqStatus.PendingApproval 
                     && x.DivisionHead == CurEmpId))).Count();
             }
 
@@ -78,9 +81,9 @@ namespace NIBM.Procurement.Areas.Base.Controllers
             var CurUser = db.Users.Find(CurUserID);
             var CurEmpId = CurUser.EmployeeID;
             var curEmpdesigId = CurUser.Employee.DesignationID;
-            DateTime startDate = new DateTime(DateTime.Now.Year, 01, 01, 00, 00, 00);
-            DateTime endDate = new DateTime(DateTime.Now.Year, 12, 31, 23, 59, 59);
-            var qry = db.ProcuremenetRequests.Where(y => y.ReqDate >= startDate && y.ReqDate <= endDate).AsQueryable();
+            //DateTime startDate = new DateTime(DateTime.Now.Year, 01, 01, 00, 00, 00);
+            //DateTime endDate = new DateTime(DateTime.Now.Year, 12, 31, 23, 59, 59);
+           // var qry = db.ProcuremenetRequests.Where(y => y.ReqDate >= startDate && y.ReqDate <= endDate).AsQueryable();
 
             List<ProcurementReqStatus> approvalStatusList = new List<ProcurementReqStatus>() { ProcurementReqStatus.PendingApproval, ProcurementReqStatus.DivisionHeadApproved,
                     ProcurementReqStatus.HRRecommended, ProcurementReqStatus.ProcurementDeptReceived };
@@ -91,21 +94,21 @@ namespace NIBM.Procurement.Areas.Base.Controllers
             List<ProcurementReqStatus> tenderStatus = new List<ProcurementReqStatus>() { ProcurementReqStatus.DGApproved, ProcurementReqStatus.HRApproved,
                     ProcurementReqStatus.SpecRecommended };
 
-            int totRequests = qry.AsQueryable().Where(x => CurEmpId.HasValue && x.ReqBy == CurEmpId).Count();
+            int totRequests = db.ProcuremenetRequests.Where(x => CurEmpId.HasValue && x.ReqBy == CurEmpId).Count();
 
-            var approvalTab = qry.Where(x => approvalStatusList.Contains(x.Status)).Count();
+            var approvalTab = db.ProcuremenetRequests.Where(x => approvalStatusList.Contains(x.Status)).Count();
 
-            var onProgressTab = qry.Where(x => onProgressProcStatus.Contains(x.Status) && x.Tender == null && x.ProcessType == null).Count();
+            var onProgressTab = db.ProcuremenetRequests.Where(x => onProgressProcStatus.Contains(x.Status) && x.Tender == null && x.ProcessType == null).Count();
 
-            var tenderTab = qry.ToList().Where(x => tenderStatus.Contains(x.Status) && ((x.Tender == null && x.ProcessType == ProcurementProcessType.GoingthroughProcurementProcess)
+            var tenderTab = db.ProcuremenetRequests.ToList().Where(x => tenderStatus.Contains(x.Status) && ((x.Tender == null && x.ProcessType == ProcurementProcessType.GoingthroughProcurementProcess)
                     || (x.Tender != null && x.ProcessType == ProcurementProcessType.GoingthroughProcurementProcess && x.Tender.TenderStatus != TenderStatus.BoardApproved &&
                     x.Tender.TenderStatus != TenderStatus.BoardRejected))).Count();
 
-            var completionTab = qry.Where(x => x.Status == ProcurementReqStatus.ItemReceived || (x.ProcessType == ProcurementProcessType.GoingthroughProcurementProcess 
+            var completionTab = db.ProcuremenetRequests.Where(x => x.Status == ProcurementReqStatus.ItemReceived || (x.ProcessType == ProcurementProcessType.GoingthroughProcurementProcess 
                     && x.Tender != null && x.Tender.TenderStatus == TenderStatus.BoardApproved) || (x.ProcessType == ProcurementProcessType.Last3monthprocess && x.Status == ProcurementReqStatus.SpecRecommended)
                     || x.ProcessType == ProcurementProcessType.CompletedByAdvance || x.ProcessType == ProcurementProcessType.CompletedByPettyCash).Count();
 
-            var divPendingCount = qry.AsQueryable().Where(x => CurEmpId.HasValue && (x.Status == ProcurementReqStatus.PendingApproval && x.DivisionHead == CurEmpId)).Count();
+            var divPendingCount = db.ProcuremenetRequests.AsQueryable().Where(x => CurEmpId.HasValue && (x.Status == ProcurementReqStatus.PendingApproval && x.DivisionHead == CurEmpId)).Count();
 
             var vm = new DashBoardVM()
             {

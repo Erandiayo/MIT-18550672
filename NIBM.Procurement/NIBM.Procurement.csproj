@@ -549,10 +549,8 @@
     <Compile Include="Areas\Admin\Controllers\DepartmentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\DesignationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\EmployeesController.cs" />
-    <Compile Include="Areas\Admin\Controllers\SubDepartmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserRolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
-    <Compile Include="Areas\Admin\Models\SubDepartmentVM.cs" />
     <Compile Include="Areas\Admin\Models\UserRoleVM.cs" />
     <Compile Include="Areas\Base\Controllers\DashBoardController.cs" />
     <Compile Include="Areas\Base\Models\DashBoardVM.cs" />
@@ -599,7 +597,6 @@
     <Compile Include="Common\DB\Entities\ProcurementReqItem.cs" />
     <Compile Include="Common\DB\Entities\Role.cs" />
     <Compile Include="Common\DB\Entities\RoleMenuAccess.cs" />
-    <Compile Include="Common\DB\Entities\SubDepartment.cs" />
     <Compile Include="Common\DB\Entities\User.cs" />
     <Compile Include="Common\DB\Entities\UserRole.cs" />
     <Compile Include="Common\DB\migrations\20210604135136_01.cs" />
@@ -621,6 +618,10 @@
     <Compile Include="Common\DB\migrations\20210924190336_05.cs" />
     <Compile Include="Common\DB\migrations\20210924190336_05.designer.cs">
       <DependentUpon>20210924190336_05.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\DB\migrations\20210925081948_Test_1.cs" />
+    <Compile Include="Common\DB\migrations\20210925081948_Test_1.designer.cs">
+      <DependentUpon>20210925081948_Test_1.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\DB\migrations\dbNIBMContextModelSnapshot.cs" />
     <Compile Include="Common\Enums.cs" />
@@ -916,10 +917,6 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="Areas\Admin\Views\SubDepartment\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\SubDepartment\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\SubDepartment\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\SubDepartment\Index.cshtml" />
     <Content Include="Areas\Procurement\Views\ProcurementRequests\Requests.cshtml" />
     <Content Include="Areas\Procurement\Views\TenderOpen\CreateTender.cshtml" />
     <Content Include="Areas\Procurement\Views\TenderOpen\_ChildIndex.cshtml" />

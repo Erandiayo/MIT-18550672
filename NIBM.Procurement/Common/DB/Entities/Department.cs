@@ -9,7 +9,6 @@ namespace NIBM.Procurement.DB.Entities
         public Department()
         {
             BranchDepartments = new HashSet<BranchDepartment>();
-            SubDepartments = new HashSet<SubDepartment>();
             Users = new HashSet<User>();
         }
 
@@ -23,7 +22,6 @@ namespace NIBM.Procurement.DB.Entities
         public byte[] RowVersion { get; set; }
 
         public virtual ICollection<BranchDepartment> BranchDepartments { get; set; }
-        public virtual ICollection<SubDepartment> SubDepartments { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

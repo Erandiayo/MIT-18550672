@@ -21,19 +21,12 @@ namespace NIBM.Procurement.DB.Entities
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
-        public string NICNo { get; set; }
         public Title Title { get; set; }
-        public DateTime DOB { get; set; }
         public Gender Gender { get; set; }
         public string Initials { get; set; }
-        public string Address_1 { get; set; }
-        public string MobileNo_1 { get; set; }
-        public string TelNo_1 { get; set; }
-        public string OfficialEmail { get; set; }
         public int DesignationID { get; set; }
         public int BranchID { get; set; }
         public int DepartmentID { get; set; }
-        public int? SubDeptId { get; set; }
         public ActiveState Status { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -45,7 +38,6 @@ namespace NIBM.Procurement.DB.Entities
         public virtual BranchDepartment BranchDepartment { get; set; }
         public virtual Designation Designation { get; set; }
         public virtual Employee Supervisor1 { get; set; }
-        public virtual SubDepartment SubDepartment { get; set; }
 
         public virtual ICollection<TECMember> TECMembers { get; set; }
         public virtual ICollection<Employee> InverseImmediateSupervisor1Navigation { get; set; }

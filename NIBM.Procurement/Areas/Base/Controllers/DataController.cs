@@ -204,36 +204,6 @@ namespace NIBM.Procurement.Areas.Base.Controllers
             }
         }
 
-        public ActionResult GetSubDepartments(string filter = null, string sortBy = null, bool inReverse = false, int startIndex = 0, int pageSize = 5, bool searchForKey = false, bool fromBranchDept = false, int? deptID = null, bool isColDepart = false)
-        {
-            using (var dbctx = new dbNIBMContext())
-            {
-                var qry = dbctx.SubDepartments.Where(x => x.Status == ActiveState.Active).AsQueryable();
-
-                if (deptID.HasValue)
-                { qry = qry.Where(x => x.DeptID == deptID && x.Department.Status == ActiveState.Active); }
-
-                if (!filter.IsBlank())
-                { qry = qry.Where("SubDeptID.ToString().Contains(@0)" + (searchForKey ? "" : " || DeptID.ToString().ToLower().Contains(@0) || Description.ToLower().Contains(@0)"), filter.ToLower()); }
-
-                if (sortBy.IsBlank())
-                { sortBy = "Description"; }
-
-                var lstSortColMap = new Dictionary<string, string>()
-                {
-                    { "SubDeptID","SubDeptID" }
-                };
-
-                return GetDataPaginated(qry, sortBy, inReverse, startIndex, pageSize, lstSortColMap,
-                    x => new
-                    {
-                        x.SubDeptID,
-                        Sub_Department = x.Description,
-                        Department = x.Department.Description
-                    });
-            }
-        }
-
         public ActionResult GetDesignations(string filter = null, string sortBy = null, bool inReverse = false, int startIndex = 0, int pageSize = 5, bool searchForKey = false)
         {
             using (var dbctx = new dbNIBMContext())

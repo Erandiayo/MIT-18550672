@@ -40,7 +40,6 @@ namespace NIBM.Procurement.DB
         public virtual DbSet<ProcurementReqItem> ProcurementReqItems { get; set; }
         public virtual DbSet<RoleMenuAccess> RoleMenuAccesses { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<SubDepartment> SubDepartments { get; set; }
         public virtual DbSet<Tender> Tenders { get; set; }
         public virtual DbSet<TenderVendor> TenderVendors { get; set; }
         public virtual DbSet<TECMember> TECMembers { get; set; }
@@ -160,17 +159,12 @@ namespace NIBM.Procurement.DB
                 entity.HasIndex(e => e.ImmediateSupervisor1)
                     .HasName("IX_FK_EmployeeEmployee");
 
-                entity.HasIndex(e => e.SubDeptId)
-                    .HasName("IX_FK_SubDepartmentEmployee");
-
                 entity.HasIndex(e => new { e.BranchID, e.DepartmentID })
                     .HasName("IX_FK_BranchDepartmentEmployee");
 
                 entity.Property(e => e.CreatedBy).IsRequired();
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.DOB).HasColumnType("datetime");
 
                 entity.Property(e => e.FullName).IsRequired();
 
@@ -179,9 +173,6 @@ namespace NIBM.Procurement.DB
                 entity.Property(e => e.LastName).IsRequired();
 
                 entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.NICNo).IsRequired();
-
 
                 entity.Property(e => e.RowVersion)
                     .IsRequired()
@@ -198,11 +189,6 @@ namespace NIBM.Procurement.DB
                     .WithMany(p => p.InverseImmediateSupervisor1Navigation)
                     .HasForeignKey(d => d.ImmediateSupervisor1)
                     .HasConstraintName("FK_EmployeeEmployee");
-
-                entity.HasOne(d => d.SubDepartment)
-                    .WithMany(p => p.Employees)
-                    .HasForeignKey(d => d.SubDeptId)
-                    .HasConstraintName("FK_SubDepartmentEmployee");
 
                 entity.HasOne(d => d.BranchDepartment)
                     .WithMany(p => p.Employees)
@@ -449,32 +435,6 @@ namespace NIBM.Procurement.DB
                     .HasConstraintName("FK_TenderVendorVendors");
             });
 
-            modelBuilder.Entity<SubDepartment>(entity =>
-            {
-                entity.HasKey(e => e.SubDeptID);
-
-                entity.HasIndex(e => e.DeptID)
-                    .HasName("IX_FK_DepartmentSubDepartment");
-
-                entity.Property(e => e.CreatedBy).IsRequired();
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Description).IsRequired();
-
-                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.RowVersion)
-                    .IsRequired()
-                    .IsRowVersion()
-                    .IsConcurrencyToken();
-
-                entity.HasOne(d => d.Department)
-                    .WithMany(p => p.SubDepartments)
-                    .HasForeignKey(d => d.DeptID)
-                    .HasConstraintName("FK_DepartmentSubDepartment");
-            });
-
             modelBuilder.Entity<UserRole>(entity =>
             {
                 entity.HasKey(e => e.UserRoleID);
@@ -576,14 +536,10 @@ namespace NIBM.Procurement.DB
                    MiddleName = "",
                    LastName = "Wikramasinghe",
                    FullName = "Gangani Wickramasinghe",
-                   MobileNo_1 = "0712496994",
-                   OfficialEmail = "b@gmail.com",
                    DesignationID = 2,
                    BranchID = 1,
                    DepartmentID = 1,
-                   NICNo = "885312322V",
                    Title = Title.Ms,
-                   DOB = new DateTime(1988, 1, 31),
                    Gender = Gender.Female,
                    Initials = "G C",
                    Status = ActiveState.Active,
@@ -598,14 +554,10 @@ namespace NIBM.Procurement.DB
                    MiddleName = "Ayodya",
                    LastName = "Rathnayaka",
                    FullName = "Erandi Ayodya Rathnayaka",
-                   MobileNo_1 = "0712496994",
-                   OfficialEmail = "b@gmail.com",
                    DesignationID = 1,
                    BranchID = 1,
                    DepartmentID = 1,
-                   NICNo = "885312322V",
                    Title = Title.Ms,
-                   DOB = new DateTime(1988, 1, 31),
                    Gender = Gender.Female,
                    Initials = "R M E A",
                    Status = ActiveState.Active,
@@ -621,14 +573,10 @@ namespace NIBM.Procurement.DB
                    MiddleName = "",
                    LastName = "Kulasooriya",
                    FullName = "Ananda Kulasooriya",
-                   MobileNo_1 = "0712496994",
-                   OfficialEmail = "b@gmail.com",
                    DesignationID = 4,
                    BranchID = 1,
                    DepartmentID = 1,
-                   NICNo = "885312322V",
                    Title = Title.Ms,
-                   DOB = new DateTime(1988, 1, 31),
                    Gender = Gender.Female,
                    Initials = "D M A",
                    Status = ActiveState.Active,
