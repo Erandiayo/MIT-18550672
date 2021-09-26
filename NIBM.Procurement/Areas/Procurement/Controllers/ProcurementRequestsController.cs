@@ -216,15 +216,12 @@ namespace NIBM.Procurement.Controllers
                     obj.SupervisorComment = procuremenetRequestVM.Comments;
                     obj.DGAppORRejDate = DateTime.Now;
                 }
+                obj.ModifiedBy = this.GetCurrUser();
+                obj.ModifiedDate = DateTime.Now;
+                db.SaveChanges();
 
-               
-               
-                    obj.ModifiedBy = this.GetCurrUser();
-                    obj.ModifiedDate = DateTime.Now;
-                    db.SaveChanges();
-
-                    AddAlert(NIBM.Procurement.Common.AlertStyles.success, "Selected request(s) approved successfully.");
-                     return RedirectToAction("Requests");
+                AddAlert(NIBM.Procurement.Common.AlertStyles.success, "Selected request(s) approved successfully.");
+                return RedirectToAction("Requests");
 
             }
             catch (DbUpdateConcurrencyException ex)
@@ -304,8 +301,8 @@ namespace NIBM.Procurement.Controllers
                 db.SaveChanges();
 
                 AddAlert(NIBM.Procurement.Common.AlertStyles.danger, "Request rejected successfully.");
-                
-                return RedirectToAction("Requests", "ApproveRequest"); 
+
+                return RedirectToAction("Requests", "ApproveRequest");
 
             }
             catch (DbUpdateConcurrencyException ex)
@@ -550,7 +547,7 @@ namespace NIBM.Procurement.Controllers
                 }
             }
             var obj = Session.GetObject<ProcuremenetRequestVM>();
-            var ProcurementDetail = new ProcurementReqItemsVM() { ProReqId = proReqID.Value };
+            var ProcurementDetail = new ProcurementReqItemsVM() { ProReqId = proReqID.Value, ReqQty = 1 };
             return PartialView("_ChildCreate", ProcurementDetail);
         }
 

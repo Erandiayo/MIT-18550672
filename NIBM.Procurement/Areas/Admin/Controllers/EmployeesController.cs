@@ -62,6 +62,9 @@ namespace NIBM.Procurement.Areas.Admin.Controllers
                     if (existingEmployeeEPF != null)
                     { ModelState.AddModelError("EPFNo", "Employee EPF Number Already Exist"); }
 
+                    if (employee.EPFNo <1000 || employee.EPFNo >9999)
+                    { ModelState.AddModelError("EPFNo", "Invalid EPF No."); }
+
 
                     if (ModelState.IsValid)
                     {

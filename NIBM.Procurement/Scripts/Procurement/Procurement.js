@@ -164,7 +164,6 @@ $(function () {
         if (cb.prop('checked')) {
             $(this).parent().css("--bs-table-accent-bg", "#fcdfa9");
             $(this).parent().siblings().css("--bs-table-accent-bg", "#fcdfa9");
-            //objrejBtn.hide();
 
             if (!$('#SelectAllAppPRoc').is(':checked')) {
                 var trFullCount = $('#tblReqAppNPendComple').find('tbody tr td div div[name="ProcDetDiv"]').length;
@@ -983,6 +982,7 @@ function ItemsReceivedIndex() {
     frm.attr('method', "POST");
     frm.submit();
 }
+
 function CloseTenderIndex() {
 
     var btn = $(window.curSubmitter);
@@ -993,6 +993,7 @@ function CloseTenderIndex() {
     frm.attr('method', "POST");
     frm.submit();
 }
+
 function PaymentComplete() {
 
     var btn = $(window.curSubmitter);

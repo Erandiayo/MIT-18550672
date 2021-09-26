@@ -96,7 +96,7 @@
             <!-- user login dropdown start-->
             <li class="dropdown">
                 <a data-toggle="collapse" class="dropdown-toggle" href="#collapseID2" aria-expanded="false" aria-controls="collapseExample">
-                    <span class="profile-ava">
+                    <span class="profile-ava" style="display:none">
                         <img alt="" src="@Url.Action("GetMyProfilePicture","Home", new { area = "Base" })" style="height:35px" />
                     </span>
                     <span class="username">@Html.GetCurrentUserVM().ShortName</span>

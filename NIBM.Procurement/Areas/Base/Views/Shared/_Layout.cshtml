@@ -21,8 +21,9 @@
     @Styles.Render("~/Content/bootstrapmin")
     @Styles.Render("~/Content/bootstrap.beta/bootstrapminbeta")
     @{
+        var lstMenus = Html.GetAccessibleMenus();
         var sideMenuWidth = "300px";
-        var hideIt = ViewBag.HideMenu ?? false;
+        var hideIt = lstMenus.Count == 0 || ViewBag.HideMenu ?? false;
     }
 
     <script type="text/javascript">
